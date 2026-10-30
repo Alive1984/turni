@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0f6b5c">
+<title>I miei turni</title>
+<style>
+:root{--bg:#f2f5f1;--card:#fff;--ink:#14201c;--mut:#5d6b66;--line:#d9e0db;--acc:#0f6b5c;--accink:#fff;--D:#f0b429;--Dink:#3a2a00;--N:#3b3f8f;--R:#1f8a70;--A:#8a96a0;--fes:#c0392b}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121815;--card:#1b2420;--ink:#e8efeb;--mut:#9aaaa3;--line:#2c3832;--acc:#3fbfa6;--accink:#06231c;--D:#d99a12;--Dink:#1d1400;--N:#7a80e0;--R:#35b394;--A:#6f7b84;--fes:#ff7a6b}}
+:root[data-theme="dark"]{--bg:#121815;--card:#1b2420;--ink:#e8efeb;--mut:#9aaaa3;--line:#2c3832;--acc:#3fbfa6;--accink:#06231c;--D:#d99a12;--Dink:#1d1400;--N:#7a80e0;--R:#35b394;--A:#6f7b84;--fes:#ff7a6b}
+*{box-sizing:border-box}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--ink);font:15px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;display:flex;flex-direction:column}
+main{flex:1;overflow:auto;padding:10px 12px 16px;max-width:560px;width:100%;margin:0 auto}
+nav{display:flex;border-top:1px solid var(--line);background:var(--card)}
+nav button{flex:1;padding:12px 4px;background:none;border:0;color:var(--mut);font:inherit;font-weight:600}
+nav button.on{color:var(--acc);box-shadow:inset 0 3px 0 var(--acc)}
+.bar{display:flex;align-items:center;justify-content:space-between;margin:2px 0 8px}
+.bar h2{margin:0;font-size:20px}
+.bar button{width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:20px}
+.g{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+.wd{text-align:center;color:var(--mut);font-size:12px;padding:2px 0}
+.c{min-height:58px;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:3px 4px;display:flex;flex-direction:column;justify-content:space-between;color:var(--ink);font:inherit;text-align:left}
+.c.e{visibility:hidden}.c.t{outline:2px solid var(--acc)}
+.c i{font-style:normal;font-size:12px}.c.f i{color:var(--fes);font-weight:700}
+.b{align-self:center;font-weight:700;font-size:12px;padding:1px 6px;border-radius:10px;color:#fff;min-width:22px;text-align:center}
+.b.D{background:var(--D);color:var(--Dink)}.b.N{background:var(--N)}.b.R{background:var(--R)}.b.A{background:var(--A)}
+.o{font-size:10px;color:var(--mut);text-align:center;height:12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin:10px 0}
+.card h3{margin:0 0 6px;font-size:15px}
+.r{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--line)}
+.r:last-child{border:0}.r b{font-variant-numeric:tabular-nums}.neg b{color:var(--fes)}
+label{display:block;margin:10px 0 4px;font-weight:600}
+input,select,textarea{width:100%;font:inherit;padding:10px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
+.btn{padding:11px 14px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-weight:600}
+.btn.p{background:var(--acc);color:var(--accink);border-color:var(--acc)}
+.row{display:flex;gap:8px;margin-top:10px}.row>*{flex:1}
+.sh{position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:flex-end;justify-content:center}
+.sh>div{background:var(--card);width:100%;max-width:560px;border-radius:16px 16px 0 0;padding:14px 14px calc(14px + env(safe-area-inset-bottom,0px));max-height:90%;overflow:auto}
+.sh h3{margin:0 0 4px}.mut{color:var(--mut);font-size:13px}
+.tag{display:inline-block;margin:2px 4px 2px 0;padding:4px 9px;border-radius:12px;background:var(--bg);border:1px solid var(--line);font-size:13px}
+</style>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="I miei turni">
+</head>
+<body>
+<main id="m"></main>
+<nav id="n"></nav>
+<script>
+const MESI=["Gennaio","Febbraio","Marzo","Aprile","Maggio","Giugno","Luglio","Agosto","Settembre","Ottobre","Novembre","Dicembre"];
+const TURNI=[["","Automatico (ciclo)"],["-","Riposo"],["D","D · Diurno"],["N","N · Notturno"],["R1","R1 · Reperibilità 01-13"],["R2","R2 · Reperibilità 13-01"],["F","F · Ferie (1 gg)"],["FF","FF · Ferie (2 gg)"],["AM","AM · Malattia"],["Mcs","Mcs · Malattia causa servizio"],["avis","Art.33 · AVIS"],["vacc","Art.33 · Vaccino"],["art24c","Art.24 · Concorsi/esami"],["art24l","Art.24 · Lutto"],["art24m","Art.24 · Matrimonio"]];
+const CODICI=[["","Nessuno"],["St","St · Straordinario"],["StR","StR · Straord. reperibilità feriale"],["StRF","StRF · Straord. reperibilità festiva"],["StF","StF · Straord. festivo"],["L104","L104 · Permesso (ore)"],["art25","Art.25 (ex 32) · ore"],["art22","Art.22 (ex 35) · ore"],["PP","PP · Permesso personale"],["Rc","Rc · Riposo compensativo"]];
+const STR=["St","StR","StRF","StF"],REP=12,LIM={art25:18,art22:18,art24c:8};
+let S={start:"",rip:[],days:{},f0:0,fm:32,bk:0},cur=new Date(),Y=cur.getFullYear(),M=cur.getMonth(),tab="cal";
+try{const x=localStorage.getItem("turni_v1");if(x)S=Object.assign(S,JSON.parse(x))}catch(e){}
+const save=()=>{try{localStorage.setItem("turni_v1",JSON.stringify(S))}catch(e){}};
+const p2=n=>String(n).padStart(2,"0"),key=(y,m,d)=>y+"-"+p2(m+1)+"-"+p2(d);
+const dn=(y,m,d)=>Math.floor(Date.UTC(y,m,d)/864e5),pd=s=>{const a=s.split("-");return dn(+a[0],a[1]-1,+a[2])};
+const fmt=n=>(Math.round(n*100)/100).toString().replace(".",",");
+function easter(y){const a=y%19,b=Math.floor(y/100),c=y%100,d=Math.floor(b/4),e=b%4,f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),h=(19*a+b-d-g+15)%30,i=Math.floor(c/4),k=c%4,l=(32+2*e+2*i-h-k)%7,m=Math.floor((a+11*h+22*l)/451),t=h+l-7*m+114;return dn(y,Math.floor(t/31)-1,t%31+1)}
+function fest(y,m,d){if(new Date(Date.UTC(y,m,d)).getUTCDay()==0)return true;if([[0,1],[0,6],[3,25],[4,1],[5,2],[7,15],[10,1],[11,8],[11,25],[11,26]].some(x=>x[0]==m&&x[1]==d))return true;const x=dn(y,m,d),e=easter(y);return x==e||x==e+1}
+function auto(y,m,d){if(!S.start)return"";const x=dn(y,m,d);let a=pd(S.start);S.rip.slice().sort().forEach(r=>{if(x>=pd(r))a=pd(r)});const k=(((x-a)%5)+5)%5;return k==0?"D":k==1?"N":""}
+function turno(y,m,d){const r=S.days[key(y,m,d)];if(r&&r.t)return r.t=="-"?"":r.t;return auto(y,m,d)}
+function calc(y,m){const t={dia:0,not:0,fes:0,rgF:0,rgH:0,rhF:0,rhH:0,str:0,fer:0,mal:0,art25:0,art22:0,l104:0,pp:0,rc:0,a24c:0,a24l:0,a24m:0,a33:0},n=new Date(Date.UTC(y,m+1,0)).getUTCDate();
+for(let d=1;d<=n;d++){const T=turno(y,m,d),r=S.days[key(y,m,d)]||{},f=fest(y,m,d),o=+r.o||0,c=r.c||"",sh=STR.includes(c)?o:0;
+if(T=="D"){t.dia+=12;if(f)t.fes+=12}else if(T=="N"){t.dia+=4.5;t.not+=7.5;if(f)t.fes+=12}
+else if(T=="R1"||T=="R2"){const h=Math.max(0,REP-sh);if(f){t.rgH++;t.rhH+=h}else{t.rgF++;t.rhF+=h}}
+else if(T=="F")t.fer+=1;else if(T=="FF")t.fer+=2;else if(T=="AM"||T=="Mcs")t.mal++;else if(T=="avis"||T=="vacc")t.a33++;
+else if(T=="art24c")t.a24c++;else if(T=="art24l")t.a24l++;else if(T=="art24m")t.a24m++;
+t.str+=sh;if(c=="art25")t.art25+=o;if(c=="art22")t.art22+=o;if(c=="L104")t.l104+=o;if(c=="PP")t.pp+=o;if(c=="Rc")t.rc+=o}
+t.tot=t.dia+t.not;return t}
+function cls(T){return T=="D"?"D":T=="N"?"N":T=="R1"||T=="R2"?"R":"A"}
+function rows(t,y){const R=(a,b,neg)=>`<div class="r${neg&&b<0?" neg":""}"><span>${a}</span><b>${typeof b=="number"?fmt(b):b}</b></div>`;return R("Ore diurne",t.dia)+R("Ore notturne",t.not)+R("Ore di turno totali",t.tot)+R("di cui in giorni festivi",t.fes)}
+function view(){const m=$("#m");if(tab=="cal")cal(m);else if(tab=="mese")mese(m);else if(tab=="anno")anno(m);else imp(m);
+$("#n").innerHTML=[["cal","Calendario"],["mese","Mese"],["anno","Anno"],["imp","Impostazioni"]].map(x=>`<button class="${tab==x[0]?"on":""}" data-t="${x[0]}">${x[1]}</button>`).join("");
+$("#n").querySelectorAll("button").forEach(b=>b.onclick=()=>{tab=b.dataset.t;view()})}
+const $=s=>document.querySelector(s);
+function bkBanner(){const has=S.start||Object.keys(S.days).length;if(!has)return"";const g=S.bk?Math.floor((Date.now()-S.bk)/864e5):null;if(g!==null&&g<=30)return"";return`<div class="card">${g===null?"Non hai ancora fatto una copia di sicurezza dei tuoi dati.":"L’ultima copia di sicurezza risale a "+g+" giorni fa."} <button class="btn" id="gb">Fai la copia</button></div>`}
+function saveFile(){const f=new File([JSON.stringify(S)],"turni-copia-"+new Date().toISOString().slice(0,10)+".json",{type:"application/json"}),mark=()=>{S.bk=Date.now();save();view()};if(navigator.canShare&&navigator.canShare({files:[f]})){navigator.share({files:[f],title:"Copia dei turni"}).then(mark).catch(()=>{});return}const a=document.createElement("a");a.href=URL.createObjectURL(f);a.download=f.name;document.body.appendChild(a);a.click();a.remove();mark()}
+function nav(delta){M+=delta;if(M<0){M=11;Y--}if(M>11){M=0;Y++}view()}
+function head(){return`<div class="bar"><button id="pv" aria-label="Mese precedente">‹</button><h2>${MESI[M]} ${Y}</h2><button id="nx" aria-label="Mese successivo">›</button></div>`}
+function wire(){$("#pv").onclick=()=>nav(-1);$("#nx").onclick=()=>nav(1)}
+function cal(m){const first=(new Date(Date.UTC(Y,M,1)).getUTCDay()+6)%7,n=new Date(Date.UTC(Y,M+1,0)).getUTCDate(),td=new Date();let h=head()+bkBanner()+(S.start?"":`<div class="card">Per generare la turnazione vai in <b>Impostazioni</b> e scrivi la data di un giorno in cui fai il diurno.</div>`)+`<div class="g">`+["L","M","M","G","V","S","D"].map(x=>`<div class="wd">${x}</div>`).join("");
+for(let i=0;i<first;i++)h+=`<div class="c e"></div>`;
+for(let d=1;d<=n;d++){const T=turno(Y,M,d),r=S.days[key(Y,M,d)]||{},isT=td.getFullYear()==Y&&td.getMonth()==M&&td.getDate()==d;
+h+=`<button class="c${fest(Y,M,d)?" f":""}${isT?" t":""}" data-d="${d}"><i>${d}</i>${T?`<span class="b ${cls(T)}">${T}</span>`:"<span></span>"}<span class="o">${r.c?r.c+(r.o?" "+fmt(+r.o):""):""}</span></button>`}
+m.innerHTML=h+`</div><p class="mut">Tocca un giorno per cambiare il turno o aggiungere ore (straordinario, permessi). I giorni rossi sono festivi.</p>`;wire();const gb=$("#gb");if(gb)gb.onclick=()=>{tab="imp";view()};
+m.querySelectorAll(".c[data-d]").forEach(b=>b.onclick=()=>edit(+b.dataset.d))}
+function opts(L,v){return L.map(x=>`<option value="${x[0]}"${x[0]==v?" selected":""}>${x[1]}</option>`).join("")}
+function edit(d){const k=key(Y,M,d),r=S.days[k]||{},T=turno(Y,M,d),s=document.createElement("div");s.className="sh";
+s.innerHTML=`<div><h3>${d} ${MESI[M]} ${Y}</h3><div class="mut">${fest(Y,M,d)?"Giorno festivo · ":""}Turno attuale: ${T||"riposo"}</div><label for="t">Turno o assenza</label><select id="t">${opts(TURNI,r.t||"")}</select><label for="c">Ore (straordinario, permessi)</label><select id="c">${opts(CODICI,r.c||"")}</select><label for="o">Numero di ore (es. 1,5 = 1h30; Art.25 giornata intera = 6)</label><input id="o" inputmode="decimal" value="${r.o?String(r.o).replace(".",","):""}"><div class="row"><button class="btn" id="x">Annulla</button><button class="btn" id="z">Azzera giorno</button><button class="btn p" id="ok">Salva</button></div></div>`;
+document.body.appendChild(s);s.onclick=e=>{if(e.target==s)s.remove()};
+$("#x").onclick=()=>s.remove();$("#z").onclick=()=>{delete S.days[k];save();s.remove();view()};
+$("#ok").onclick=()=>{const t=$("#t").value,c=$("#c").value,o=parseFloat($("#o").value.replace(",","."))||0;if(!t&&!c)delete S.days[k];else S.days[k]={t,c,o:c?o:0};save();s.remove();view()}}
+function mese(m){const t=calc(Y,M);m.innerHTML=head()+`<div class="card"><h3>Ore di turno</h3>${rows(t)}</div><div class="card"><h3>Reperibilità</h3><div class="r"><span>Feriale: giorni · ore nette</span><b>${t.rgF} · ${fmt(t.rhF)}</b></div><div class="r"><span>Festiva: giorni · ore nette</span><b>${t.rgH} · ${fmt(t.rhH)}</b></div><p class="mut">Ogni R1/R2 vale ${REP} ore, meno lo straordinario svolto lo stesso giorno.</p></div><div class="card"><h3>Straordinario e permessi</h3>${[["Straordinario (ore)",t.str],["Art.25 (ex 32) ore",t.art25],["Art.22 (ex 35) ore",t.art22],["L104 ore",t.l104],["Permesso personale ore",t.pp],["Riposo compensativo ore",t.rc]].map(x=>`<div class="r"><span>${x[0]}</span><b>${fmt(x[1])}</b></div>`).join("")}</div><div class="card"><h3>Giorni di assenza</h3>${[["Ferie",t.fer],["Malattia",t.mal],["Art.24 concorsi/esami",t.a24c],["Art.24 lutto",t.a24l],["Art.24 matrimonio",t.a24m],["Art.33 AVIS/vaccino",t.a33]].map(x=>`<div class="r"><span>${x[0]}</span><b>${x[1]}</b></div>`).join("")}</div>`;wire()}
+function anno(m){const T={};for(let i=0;i<12;i++){const c=calc(Y,i);for(const k in c)T[k]=(T[k]||0)+c[k]}
+const R=(a,b,neg)=>`<div class="r${neg&&b<0?" neg":""}"><span>${a}</span><b>${fmt(b)}</b></div>`;
+m.innerHTML=`<div class="bar"><button id="pv" aria-label="Anno precedente">‹</button><h2>Anno ${Y}</h2><button id="nx" aria-label="Anno successivo">›</button></div><div class="card"><h3>Ore</h3>${R("Diurne",T.dia)+R("Notturne",T.not)+R("Turno totali",T.tot)+R("Festive",T.fes)+R("Reperibilità feriale (ore nette)",T.rhF)+R("Reperibilità festiva (ore nette)",T.rhH)+R("Straordinario",T.str)}</div><div class="card"><h3>Residui</h3>${R("Art.25 (ex 32): ore residue su "+LIM.art25,LIM.art25-T.art25,1)+R("Art.22 (ex 35): ore residue su "+LIM.art22,LIM.art22-T.art22,1)+R("Art.24 concorsi/esami: giorni residui su "+LIM.art24c,LIM.art24c-T.a24c,1)+R("Ferie residue (spettanti "+fmt((+S.f0||0)+(+S.fm||0))+")",(+S.f0||0)+(+S.fm||0)-T.fer,1)}</div><div class="card"><h3>Altro</h3>${R("Giorni di ferie",T.fer)+R("Giorni di malattia",T.mal)+R("Ore L104",T.l104)+R("Ore permesso personale",T.pp)+R("Ore riposo compensativo",T.rc)}</div>`;
+$("#pv").onclick=()=>{Y--;view()};$("#nx").onclick=()=>{Y++;view()}}
+function imp(m){m.innerHTML=`<div class="card"><h3>Turnazione automatica</h3><div class="mut">Ciclo: diurno, notturno, smonto, riposo, riposo. Scrivi la data di un giorno in cui fai il diurno: da lì il ciclo si compila su tutto il calendario.</div><label for="s">Un giorno in cui fai il diurno (D)</label><input id="s" type="date" value="${S.start}"><label for="r">Ripartenza del ciclo (data di un D)</label><div class="row"><input id="r" type="date"><button class="btn" id="ar">Aggiungi</button></div><div id="rl">${S.rip.slice().sort().map(x=>`<span class="tag">${x.split("-").reverse().join("/")} <a href="#" data-x="${x}">✕</a></span>`).join("")}</div><div class="mut">Usa la ripartenza se da una certa data il tuo ciclo cambia (slittamento, cambio squadra). I singoli giorni si possono sempre modificare dal calendario.</div></div><div class="card"><h3>Ferie</h3><label for="f0">Giorni residui dall’anno precedente</label><input id="f0" inputmode="decimal" value="${S.f0}"><label for="fm">Giorni maturati nell’anno</label><input id="fm" inputmode="decimal" value="${S.fm}"></div><div class="card"><h3>Copia di sicurezza</h3><div class="mut">Copia questo testo e conservalo (es. in una nota): per ripristinare i dati su un altro telefono incollalo qui sotto e tocca “Ripristina dal testo”. In alternativa salva un file e ripristinalo da lì.</div><textarea id="bk" rows="4">${JSON.stringify(S).replace(/&/g,"&amp;").replace(/</g,"&lt;")}</textarea><div class="mut" id="lb">${S.bk?"Ultima copia: "+new Date(S.bk).toLocaleDateString("it-IT"):"Non hai ancora fatto nessuna copia."}</div><div class="row"><button class="btn" id="cp">Copia il testo</button><button class="btn" id="sf">Salva come file</button></div><label for="lf">Ripristina da file</label><input id="lf" type="file" accept=".json,application/json"><div class="row"><button class="btn p" id="rs">Ripristina dal testo</button></div><div class="row"><button class="btn" id="dl">Cancella tutti i dati</button></div></div>`;
+$("#s").onchange=e=>{S.start=e.target.value;save()};
+$("#ar").onclick=()=>{const v=$("#r").value;if(v&&!S.rip.includes(v)){S.rip.push(v);save();view()}};
+m.querySelectorAll("[data-x]").forEach(a=>a.onclick=e=>{e.preventDefault();S.rip=S.rip.filter(x=>x!=a.dataset.x);save();view()});
+$("#f0").onchange=e=>{S.f0=parseFloat(e.target.value.replace(",","."))||0;save()};$("#fm").onchange=e=>{S.fm=parseFloat(e.target.value.replace(",","."))||0;save()};
+$("#cp").onclick=()=>{const b=$("#bk");b.select();try{navigator.clipboard.writeText(b.value)}catch(e){document.execCommand("copy")}S.bk=Date.now();save();$("#lb").textContent="Ultima copia: "+new Date(S.bk).toLocaleDateString("it-IT")};
+const rest=t=>{try{const o=JSON.parse(t);if(typeof o.days!="object"||!Array.isArray(o.rip))throw 0;o.rip=o.rip.filter(x=>/^\d{4}-\d{2}-\d{2}$/.test(x));if(o.start&&!/^\d{4}-\d{2}-\d{2}$/.test(o.start))o.start="";S=Object.assign({start:"",rip:[],days:{},f0:0,fm:32,bk:0},o);S.bk=Date.now();save();view()}catch(e){alert("Copia non valida: usa il testo o il file completo della copia di sicurezza.")}};
+$("#rs").onclick=()=>rest($("#bk").value);$("#sf").onclick=saveFile;$("#lf").onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>rest(String(r.result));r.readAsText(f)};
+$("#dl").onclick=()=>{if(confirm("Cancellare tutti i dati di questa app?")){S={start:"",rip:[],days:{},f0:0,fm:32,bk:0};save();view()}}}
+view();
+</script>
+<script>if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})})}</script>
+</body>
+</html>
