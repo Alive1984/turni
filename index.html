@@ -84,13 +84,13 @@ const GH=["L104","art25","art22","pr53","Rc","RcRF","ASS","PS","Fo","AMo"];
 const STK=["St","StR","StRF","StF"],REP12=["R1","R2","RF1","RF2"],REP6=["R1-6h","R2-6h"],REPALL=REP12.concat(REP6);
 const DESC={};TG.concat(OG).forEach(g=>g[1].forEach(x=>{if(!DESC[x[0]])DESC[x[0]]=x[1]}));
 /* ====== STATO ====== */
-const dflt=()=>({v:2,tipo:"T",start:"",rip:[],from:"",rep:[],wk:["G","G","G","G","G","",""],days:{},f0:0,fm:"",fs:0,b0:0,r0:0,pay:0,sa:true,hx:[],tr:17.5,tk:0.5,asg:0,l25:18,l22:18,l24:8,bk:0});
+const dflt=()=>({v:2,tipo:"T",start:"",rip:[],from:"",rep:[],wk:["G","G","G","G","G","",""],days:{},f0:0,fm:"",fs:0,b0:0,r0:0,pay:0,sa:true,hx:[],tr:17.5,tk:0.5,asg:0,l25:18,l22:18,l24:8,bk:0,nome:""});
 const p2=n=>String(n).padStart(2,"0"),key=(y,m,d)=>y+"-"+p2(m+1)+"-"+p2(d);
 const dn=(y,m,d)=>Math.floor(Date.UTC(y,m,d)/864e5),pd=s=>{const a=s.split("-");return dn(+a[0],a[1]-1,+a[2])};
 const isD=s=>/^\d{4}-\d{2}-\d{2}$/.test(s||"");
 const num=v=>parseFloat(String(v).replace(",","."))||0;
 /* ore: si scrivono "2:57" oppure "1,5"; si salvano in minuti */
-function pm(v){v=String(v==null?"":v).trim();if(!v)return 0;let s=1;if(v[0]=="-"){s=-1;v=v.slice(1)}if(v.includes(":")){const a=v.split(":");return s*((parseInt(a[0])||0)*60+(parseInt(a[1])||0))}return s*Math.round(num(v)*60)}
+function pm(v){v=String(v==null?"":v).trim();if(!v)return 0;let s=1;if(v[0]=="-"||v[0]=="−"){s=-1;v=v.slice(1)}if(v.includes(":")){const a=v.split(":");return s*((parseInt(a[0])||0)*60+(parseInt(a[1])||0))}return s*Math.round(num(v)*60)}
 const hm=n=>{n=Math.round(n||0);const s=n<0?"−":"";n=Math.abs(n);return s+Math.floor(n/60)+":"+p2(n%60)};
 const fmt=n=>(Math.round(n*100)/100).toString().replace(".",",");
 function fixCode(c){return ALIAS[c]||c||""}
@@ -102,7 +102,7 @@ function migrate(o){/* copia della versione precedente (ore in decimali, un solo
  return n}
 function load(o){if(!o||typeof o!="object"||typeof o.days!="object")throw 0;if(o.v!==2)return migrate(o);
  const n=Object.assign(dflt(),o);n.rip=(n.rip||[]).filter(isD);n.hx=(n.hx||[]).filter(isD);if(!Array.isArray(n.rep))n.rep=[];if(!Array.isArray(n.wk)||n.wk.length!=7)n.wk=dflt().wk;if(n.start&&!isD(n.start))n.start="";if(n.from&&!isD(n.from))n.from="";
- for(const k in n.days){if(!isD(k)){delete n.days[k];continue}const r=n.days[k];["t","c","c2"].forEach(f=>{if(r[f])r[f]=fixCode(r[f])})}return n}
+ for(const k in n.days){if(!isD(k)){delete n.days[k];continue}const r=n.days[k];["t","p","c","c2"].forEach(f=>{if(r[f])r[f]=fixCode(r[f])})}return n}
 let S=dflt(),now=new Date(),Y=now.getFullYear(),M=now.getMonth(),tab="cal";
 try{const x=localStorage.getItem("turni_v2");if(x)S=load(JSON.parse(x));else{const v1=localStorage.getItem("turni_v1");if(v1){S=load(JSON.parse(v1));localStorage.setItem("turni_v2",JSON.stringify(S))}}}catch(e){S=dflt()}
 const save=()=>{try{localStorage.setItem("turni_v2",JSON.stringify(S))}catch(e){}};
@@ -117,12 +117,13 @@ function auto(y,m,d){const x=dn(y,m,d);if(S.from&&x<pd(S.from))return"";
  if(S.tipo=="G"){if(fest(y,m,d))return"";return S.wk[(wday(y,m,d)+6)%7]||""}
  if(!S.start)return"";let a=pd(S.start);S.rip.slice().sort().forEach(r=>{if(x>=pd(r))a=pd(r)});const k=(((x-a)%5)+5)%5;if(k==0)return"D";if(k==1)return"N";
  if(k>=3&&S.rep.length){const ky=key(y,m,d),p=S.rep.find(q=>q.r&&(!q.a||ky>=q.a)&&(!q.b||ky<=q.b));if(p){const j=((x+(5-k)-pd(p.r))%10+10)%10;if(k==4&&j==0)return"R1";if(k==3&&j==5)return"R2"}}return""}
-function turno(y,m,d){const r=S.days[key(y,m,d)];if(r&&r.t)return r.t=="-"?"":r.t;return auto(y,m,d)}
+function prev(y,m,d){const r=S.days[key(y,m,d)];if(r&&r.p)return r.p=="-"?"":r.p;return auto(y,m,d)}
+function turno(y,m,d){const r=S.days[key(y,m,d)];if(r&&r.t)return r.t=="-"?"":r.t;return prev(y,m,d)}
 function shiftMin(T,r,y,m,d){if(T=="G"||T=="SW"){const h=r&&r.h?r.h:GDAY();return[h,0]}return HR[T]||[0,0]}
 const codes=r=>{const a=[];if(r.c)a.push([r.c,+r.o||0]);if(r.c2)a.push([r.c2,+r.o2||0]);return a};
 /* ====== CALCOLO DEL MESE (stesse regole del file) ====== */
 function calc(y,m){const t={dia:0,not:0,fes:0,lav:0,giu:0,dov:0,ris:0,rep:0,repF:0,repH:0,repPay:0,repFm:0,repHm:0,nInt:0,nIntF:0,dn:0,sem:0,nnf:0,nn2:0,gsw:0,fe:0,feF:0,mal:0,c:{},g:{},risD:[]},n=ndays(y,m),td=dn(now.getFullYear(),now.getMonth(),now.getDate());
- for(let d=1;d<=n;d++){const T=turno(y,m,d),P=auto(y,m,d),r=S.days[key(y,m,d)]||{},f=fest(y,m,d),cs=codes(r),x=dn(y,m,d);
+ for(let d=1;d<=n;d++){const T=turno(y,m,d),P=prev(y,m,d),r=S.days[key(y,m,d)]||{},f=fest(y,m,d),cs=codes(r),x=dn(y,m,d);
   if(lavor(y,m,d))t.dov+=GDAY();
   const h=shiftMin(T,r),tot=h[0]+h[1];let ph=0,stk=0,int=false;
   cs.forEach(([c,o])=>{t.c[c]=(t.c[c]||0)+o;if(GH.includes(c))ph+=o;if(STK.includes(c))stk+=o;if(c=="StR"||c=="StRF")int=true;if(c=="StR")t.nInt++;if(c=="StRF")t.nIntF++});
@@ -163,7 +164,7 @@ function cal(m){const first=(wday(Y,M,1)+6)%7,n=ndays(Y,M),t=calc(Y,M);
  const setup=S.tipo=="G"?"":S.start?"":`<div class="card">Per generare la turnazione vai in <b>Impost.</b> e scrivi la data di un giorno in cui fai il diurno (D).</div>`;
  let h=head()+bkBanner()+setup+`<div class="g">`+["L","M","M","G","V","S","D"].map(x=>`<div class="wd">${x}</div>`).join("");
  for(let i=0;i<first;i++)h+=`<div class="c e"></div>`;
- for(let d=1;d<=n;d++){const T=turno(Y,M,d),r=S.days[key(Y,M,d)]||{},isT=now.getFullYear()==Y&&now.getMonth()==M&&now.getDate()==d,cs=codes(r),mod=r.t&&r.t!==auto(Y,M,d)&&!(r.t=="-"&&!auto(Y,M,d));
+ for(let d=1;d<=n;d++){const T=turno(Y,M,d),r=S.days[key(Y,M,d)]||{},isT=now.getFullYear()==Y&&now.getMonth()==M&&now.getDate()==d,cs=codes(r),mod=r.t&&r.t!==prev(Y,M,d)&&!(r.t=="-"&&!prev(Y,M,d));
   const o=cs.length>1?cs.map(z=>z[0]).join("+"):cs.map(z=>z[0]+(z[1]?" "+hm(z[1]):"")).join("");
   h+=`<button class="c${fest(Y,M,d)?" f":""}${isT?" t":""}${mod?" m":""}" data-d="${d}"><i>${d}</i>${T?`<span class="b ${cls(T)}">${T}</span>`:"<span></span>"}<span class="o">${esc(o)}</span></button>`}
  h+=`</div><div class="card"><div class="kpi"><div><span>Saldo mese</span><b>${hm(t.sal)}</b></div><div><span>Rep. / rischio</span><b>${t.rep} / ${t.ris}</b></div><div><span>Straord.</span><b>${hm(t.str)}</b></div></div></div><p class="mut">Tocca un giorno per cambiare il turno o aggiungere ore (straordinario, permessi). I giorni con il bordo tratteggiato sono stati modificati a mano; i numeri rossi sono festivi.</p>`;
@@ -171,9 +172,9 @@ function cal(m){const first=(wday(Y,M,1)+6)%7,n=ndays(Y,M),t=calc(Y,M);
 function optg(G,v,first){let h=first.map(x=>`<option value="${x[0]}"${x[0]==v?" selected":""}>${esc(x[1])}</option>`).join("");let found=first.some(x=>x[0]==v);
  G.forEach(g=>{h+=`<optgroup label="${g[0]}">`+g[1].map(x=>{if(x[0]==v)found=true;return`<option value="${x[0]}"${x[0]==v?" selected":""}>${esc(x[1])}</option>`}).join("")+`</optgroup>`});
  if(!found&&v)h+=`<option value="${esc(v)}" selected>${esc(v)} (sigla non in elenco)</option>`;return h}
-function edit(d){const k=key(Y,M,d),r=S.days[k]||{},A=auto(Y,M,d),s=document.createElement("div");s.className="sh";
+function edit(d){const k=key(Y,M,d),r=S.days[k]||{},A=prev(Y,M,d),s=document.createElement("div");s.className="sh";
  const f=fest(Y,M,d),hv=x=>x?hm(x):"";
- s.innerHTML=`<div><h3>${["Domenica","Lunedì","Martedì","Mercoledì","Giovedì","Venerdì","Sabato"][wday(Y,M,d)]} ${d} ${MESI[M]} ${Y}</h3><div class="mut">${f?"Giorno festivo · ":""}Previsto dal ciclo: ${A||"riposo"}</div>
+ s.innerHTML=`<div><h3>${["Domenica","Lunedì","Martedì","Mercoledì","Giovedì","Venerdì","Sabato"][wday(Y,M,d)]} ${d} ${MESI[M]} ${Y}</h3><div class="mut">${f?"Giorno festivo · ":""}Previsto: ${A||"riposo"}${r.p?" (dal piano)":""}</div>
  <label for="t">Turno o assenza</label><select id="t">${optg(TG,r.t||"",[["","Come previsto ("+(A||"riposo")+")"],["-","Riposo"]])}</select>
  <div id="hw"><label for="h">Ore della giornata G / SW</label><input id="h" inputmode="text" placeholder="vuoto = ${hm(GDAY())}" value="${hv(r.h)}"></div>
  <label for="c">Ore (straordinario, permessi)</label><div class="two"><select id="c">${optg(OG,r.c||"",[["","Nessuno"]])}</select><input id="o" inputmode="text" placeholder="h:mm" value="${hv(r.o)}"></div>
@@ -184,8 +185,8 @@ function edit(d){const k=key(Y,M,d),r=S.days[k]||{},A=auto(Y,M,d),s=document.cre
  const hw=()=>{const v=$("#t").value||A;$("#hw").style.display=(v=="G"||v=="SW")?"":"none"};$("#t").onchange=hw;hw();
  const lm=()=>{const T=ycalc(Y),L={art25:["Art.25 (ex 32)",S.l25*60,T.c.art25||0],art22:["Art.22 (ex 35)",S.l22*60,T.c.art22||0]};const msg=["c","c2"].map(id=>L[$("#"+id).value]).filter(Boolean).map(l=>l[0]+": usate "+hm(l[2])+" su "+hm(l[1])+" nell’anno (residuo "+hm(l[1]-l[2])+")");$("#lm").textContent=msg.join(" · ")};
  ["c","c2"].forEach(id=>{$("#"+id).onchange=()=>{const o=$("#"+(id=="c"?"o":"o2"));if($("#"+id).value=="art25"&&!o.value)o.value="6:00";lm()}});lm();
- $("#x").onclick=()=>s.remove();$("#z").onclick=()=>{delete S.days[k];save();s.remove();view()};
- $("#ok").onclick=()=>{const x={},t=$("#t").value,c=$("#c").value,c2=$("#c2").value,h=pm($("#h").value);if(t)x.t=t;if(c){x.c=c;x.o=pm($("#o").value)}if(c2){x.c2=c2;x.o2=pm($("#o2").value)}if(h&&(t||A)&&["G","SW"].includes(t||A))x.h=h;
+ $("#x").onclick=()=>s.remove();$("#z").onclick=()=>{if(r.p)S.days[k]={p:r.p};else delete S.days[k];save();s.remove();view()};
+ $("#ok").onclick=()=>{const x=r.p?{p:r.p}:{},t=$("#t").value,c=$("#c").value,c2=$("#c2").value,h=pm($("#h").value);if(t)x.t=t;if(c){x.c=c;x.o=pm($("#o").value)}if(c2){x.c2=c2;x.o2=pm($("#o2").value)}if(h&&(t||A)&&["G","SW"].includes(t||A))x.h=h;
   if(Object.keys(x).length)S.days[k]=x;else delete S.days[k];save();s.remove();view()}}
 function mese(m){const t=calc(Y,M);let prog=0;for(let i=0;i<=M;i++)prog+=calc(Y,i).sal;const C=k=>t.c[k]||0,Gc=k=>t.g[k]||0;
  m.innerHTML=head()+`<div class="card"><h3>Monte ore</h3>${R("Ore lavorate (turni, permessi interni tolti)",t.lav,{h:1})+R("Ore giustificate (ferie, malattia, permessi)",t.giu,{h:1})+R("Ore dovute",t.dov,{h:1})+R("Saldo del mese",t.sal,{h:1,s:1,k:1})+R("Saldo progressivo da gennaio",prog,{h:1,s:1})}<p class="mut">Saldo = lavorate + giustificate − dovute (${hm(GDAY())} per ogni giorno lavorativo${S.tipo=="G"?" lun-ven":" non domenicale"} e non festivo). Reperibilità e straordinari non entrano nel monte ore.</p></div>
@@ -195,7 +196,7 @@ function mese(m){const t=calc(Y,M);let prog=0;for(let i=0;i<=M;i++)prog+=calc(Y,
  <div class="card"><h3>Giorni di assenza</h3>${R("Ferie (giorni)",t.fe)+R("Malattia (giorni)",t.mal)+GD.concat(["RAm","RMcs","RAmd1","RAmd2","RMcsd1","RMcsd2"]).filter(k=>!["F","FF","AM","Mcs"].includes(k)).map(k=>RZ(DESC[k]||k,Gc(k))).join("")}</div>`;wire()}
 function anno(m){const T=ycalc(Y),C=k=>T.c[k]||0,G=k=>T.g[k]||0,fm=S.fm===""||S.fm==null?(S.tipo=="G"?28:32):+S.fm,sp=(+S.f0||0)+fm+(+S.fs||0),
  res=(+S.b0||0)+T.str-C("B")-C("Rc")-C("PP")-(+S.pay||0),rcr=(+S.r0||0)+C("RcRF")-G("RRRF")*360,imp=T.repPay*S.tr+T.ris*S.tk,sem=T.sal<0?Math.ceil(-T.sal/GDAY()-1e-9):0;
- m.innerHTML=`<div class="bar"><button id="pv" aria-label="Anno precedente">‹</button><h2>Anno ${Y}</h2><button id="nx" aria-label="Anno successivo">›</button></div>
+ m.innerHTML=`<div class="bar"><button id="pv" aria-label="Anno precedente">‹</button><h2>Anno ${Y}${S.nome?`<div class="mut" style="font-weight:400">${esc(S.nome)}</div>`:""}</h2><button id="nx" aria-label="Anno successivo">›</button></div>
  <div class="card"><h3>Monte ore</h3><div class="big">${hm(T.sal)}</div><div class="mut">${Math.abs(T.sal)<1?"Monte ore a pari":T.sal<0?"Mancano "+hm(-T.sal)+" ore = "+sem+" semiturni da "+hm(GDAY()):"Credito di "+hm(T.sal)+" ore"}</div>${R("Ore dovute",T.dov,{h:1})+R("Ore lavorate",T.lav,{h:1})+R("Ore giustificate",T.giu,{h:1})+R("Diurne / notturne",hm(T.dia)+" / "+hm(T.not))+R("Ore in festivi",T.fes,{h:1})}</div>
  <div class="card"><h3>Ferie</h3>${R("Residuo anno precedente",+S.f0||0)+R("Spettanti nell’anno",fm)+RZ("Festività soppresse",+S.fs||0)+R("Totale",sp,{k:1})+R("Fatte (fino a oggi)",T.feF)+R("Programmate dopo oggi",T.fe-T.feF)+R("Rimanenti da programmare",sp-T.fe,{s:1,k:1})}</div>
  <div class="card"><h3>Straordinari</h3>${R("Banca ore anno precedente",+S.b0||0,{h:1})+["St","StR","StRF","StF","StAm","StMcs"].map(k=>RZ("Maturato "+k,C(k),{h:1})).join("")+R("Totale maturato",T.str,{h:1})+R("Banca ore fruita (B)",C("B"),{h:1})+R("Recuperato (Rc)",C("Rc"),{h:1})+R("Permesso personale a debito (PP)",C("PP"),{h:1})+R("Messo in pagamento",+S.pay||0,{h:1})+R("RESIDUO",res,{h:1,s:1,k:1})}<div class="mut">Interventi in reperibilità: StR ${T.nInt} · StRF ${T.nIntF}</div></div>
@@ -214,7 +215,7 @@ function scheda(m){const n=ndays(Y,M),W=["Do","Lu","Ma","Me","Gi","Ve","Sa"];let
 const dt=x=>x?x.split("-").reverse().join("/"):"";
 function imp(m){const WK=["Lun","Mar","Mer","Gio","Ven","Sab","Dom"],WKO=[["","–"],["G","G"],["SW","SW"],["L104","L104"],["d1","d1"],["d2","d2"]];
  const fmv=S.fm===""||S.fm==null?"":S.fm;
- m.innerHTML=`<div class="card"><h3>Tipo di orario</h3><div class="seg"><button data-tp="T" class="${S.tipo=="T"?"on":""}">Turnista · 6 gg</button><button data-tp="G" class="${S.tipo=="G"?"on":""}">Giornaliero · 5 gg</button></div><div class="mut" style="margin-top:6px">36 ore settimanali: il turnista deve 6:00 per ogni giorno lun-sab non festivo; il giornaliero 7:12 lun-ven non festivo.</div><label for="sv">In servizio dal (facoltativo)</label><input id="sv" type="date" value="${S.from||""}"><div class="mut">Prima di questa data non ci sono turni e le ore non sono dovute (assunzione o arrivo in corso d’anno).</div></div>
+ m.innerHTML=`<div class="card"><label for="nm" style="margin-top:0">Nome (facoltativo, resta solo su questo telefono)</label><input id="nm" value="${esc(S.nome||"")}"></div><div class="card"><h3>Tipo di orario</h3><div class="seg"><button data-tp="T" class="${S.tipo=="T"?"on":""}">Turnista · 6 gg</button><button data-tp="G" class="${S.tipo=="G"?"on":""}">Giornaliero · 5 gg</button></div><div class="mut" style="margin-top:6px">36 ore settimanali: il turnista deve 6:00 per ogni giorno lun-sab non festivo; il giornaliero 7:12 lun-ven non festivo.</div><label for="sv">In servizio dal (facoltativo)</label><input id="sv" type="date" value="${S.from||""}"><div class="mut">Prima di questa data non ci sono turni e le ore non sono dovute (assunzione o arrivo in corso d’anno).</div></div>
  ${S.tipo=="G"?`<div class="card"><h3>Settimana tipo</h3><div class="mut">Cosa fai di solito ogni giorno: si compila da solo nel calendario (i festivi restano liberi). I singoli giorni si cambiano dal calendario.</div><div class="wk" style="margin-top:8px">${WK.map(w=>`<span>${w}</span>`).join("")}${WK.map((w,i)=>`<select data-wk="${i}">${WKO.map(o=>`<option value="${o[0]}"${(S.wk[i]||"")==o[0]?" selected":""}>${o[1]}</option>`).join("")}</select>`).join("")}</div></div>`:
  `<div class="card"><h3>Turnazione automatica</h3><div class="mut">Ciclo: diurno, notturno, smonto, riposo, riposo. Scrivi la data di un giorno in cui fai il diurno: da lì il ciclo si compila su tutto il calendario.</div><label for="s">Un giorno in cui fai il diurno (D)</label><input id="s" type="date" value="${S.start}"><label for="r">Ripartenza del ciclo (data di un D)</label><div class="row"><input id="r" type="date"><button class="btn" id="ar">Aggiungi</button></div><div>${S.rip.slice().sort().map(x=>`<span class="tag">${dt(x)} <a href="#" data-x="${x}">✕</a></span>`).join("")}</div><div class="mut">Usa la ripartenza se da una certa data il ciclo cambia (slittamento squadre, cambio squadra): scrivi il primo D del nuovo ciclo.</div></div>
  <div class="card"><h3>Reperibilità automatica R1/R2</h3><div class="mut">Indica la data di un diurno (D) preceduto da una R1: la R1 cade il giorno prima di quel D, la R2 due giorni prima del D successivo, poi di nuovo R1 e così via (ciclo di 10 giorni). Facoltativo un periodo di validità.</div><label for="rpr">Un D preceduto da R1</label><input id="rpr" type="date"><div class="row"><div><label for="rpa">Dal</label><input id="rpa" type="date"></div><div><label for="rpb">Al</label><input id="rpb" type="date"></div></div><div class="row"><button class="btn" id="arp">Aggiungi periodo</button></div><div>${S.rep.map((p,i)=>`<span class="tag">${p.a?dt(p.a):"inizio"} → ${p.b?dt(p.b):"senza fine"} · D con R1: ${dt(p.r)} <a href="#" data-p="${i}">✕</a></span>`).join("")}</div></div>`}
@@ -226,7 +227,7 @@ function imp(m){const WK=["Lun","Mar","Mer","Gio","Ven","Sab","Dom"],WKO=[["","�
  const on=(id,f)=>{const e=$("#"+id);if(e)e.onchange=f};
  m.querySelectorAll("[data-tp]").forEach(b=>b.onclick=()=>{S.tipo=b.dataset.tp;save();view()});
  m.querySelectorAll("[data-wk]").forEach(s=>s.onchange=()=>{S.wk[+s.dataset.wk]=s.value;save()});
- on("sv",e=>{S.from=e.target.value;save()});on("s",e=>{S.start=e.target.value;save()});
+ on("sv",e=>{S.from=e.target.value;save()});on("nm",e=>{S.nome=e.target.value.trim();save();view()});on("s",e=>{S.start=e.target.value;save()});
  const ar=$("#ar");if(ar)ar.onclick=()=>{const v=$("#r").value;if(v&&!S.rip.includes(v)){S.rip.push(v);save();view()}};
  const arp=$("#arp");if(arp)arp.onclick=()=>{const r=$("#rpr").value;if(!r){alert("Scrivi la data di un D preceduto da una R1.");return}S.rep.push({a:$("#rpa").value,b:$("#rpb").value,r});save();view()};
  m.querySelectorAll("[data-x]").forEach(a=>a.onclick=e=>{e.preventDefault();S.rip=S.rip.filter(x=>x!=a.dataset.x);save();view()});
@@ -239,7 +240,7 @@ function imp(m){const WK=["Lun","Mar","Mer","Gio","Ven","Sab","Dom"],WKO=[["","�
  $("#ah").onclick=()=>{const v=$("#hx").value;if(v&&!S.hx.includes(v)){S.hx.push(v);save();view()}};
  const mark=()=>{S.bk=Date.now();save();$("#lb").textContent="Ultima copia: "+new Date(S.bk).toLocaleDateString("it-IT")};
  $("#cp").onclick=()=>{const t=JSON.stringify(S);const done=()=>{mark();alert("Testo copiato: incollalo in una nota o in un messaggio a te stesso.")};if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(done,()=>{$("#bk").value=t;$("#bk").select();document.execCommand("copy");done()});else{$("#bk").value=t;$("#bk").select();document.execCommand("copy");done()}};
- $("#sf").onclick=()=>{const f=new File([JSON.stringify(S)],"turni-copia-"+new Date().toISOString().slice(0,10)+".json",{type:"application/json"});if(navigator.canShare&&navigator.canShare({files:[f]})){navigator.share({files:[f],title:"Copia dei turni"}).then(mark).catch(()=>{});return}const a=document.createElement("a");a.href=URL.createObjectURL(f);a.download=f.name;document.body.appendChild(a);a.click();a.remove();mark()};
+ $("#sf").onclick=()=>{const f=new File([JSON.stringify(S)],"turni-copia-"+(S.nome?S.nome.trim().replace(/[^A-Za-z0-9]+/g,"-")+"-":"")+new Date().toISOString().slice(0,10)+".json",{type:"application/json"});if(navigator.canShare&&navigator.canShare({files:[f]})){navigator.share({files:[f],title:"Copia dei turni"}).then(mark).catch(()=>{});return}const a=document.createElement("a");a.href=URL.createObjectURL(f);a.download=f.name;document.body.appendChild(a);a.click();a.remove();mark()};
  const rest=t=>{try{const o=load(JSON.parse(t));if(!confirm("Sostituire i dati di questa app con quelli della copia?"))return;S=o;S.bk=Date.now();save();alert("Dati ripristinati.");view()}catch(e){alert("Copia non valida: usa il testo o il file completo della copia di sicurezza.")}};
  $("#rs").onclick=()=>rest($("#bk").value);$("#lf").onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>rest(String(r.result));r.readAsText(f)};
  $("#dl").onclick=()=>{if(confirm("Cancellare tutti i dati di questa app? Fai prima una copia di sicurezza.")){S=dflt();save();view()}}}
