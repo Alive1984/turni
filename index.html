@@ -4,127 +4,247 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0f6b5c">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-180.png">
 <title>I miei turni</title>
 <style>
-:root{--bg:#f2f5f1;--card:#fff;--ink:#14201c;--mut:#5d6b66;--line:#d9e0db;--acc:#0f6b5c;--accink:#fff;--D:#f0b429;--Dink:#3a2a00;--N:#3b3f8f;--R:#1f8a70;--A:#8a96a0;--fes:#c0392b}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121815;--card:#1b2420;--ink:#e8efeb;--mut:#9aaaa3;--line:#2c3832;--acc:#3fbfa6;--accink:#06231c;--D:#d99a12;--Dink:#1d1400;--N:#7a80e0;--R:#35b394;--A:#6f7b84;--fes:#ff7a6b}}
-:root[data-theme="dark"]{--bg:#121815;--card:#1b2420;--ink:#e8efeb;--mut:#9aaaa3;--line:#2c3832;--acc:#3fbfa6;--accink:#06231c;--D:#d99a12;--Dink:#1d1400;--N:#7a80e0;--R:#35b394;--A:#6f7b84;--fes:#ff7a6b}
+:root{--bg:#f2f5f1;--card:#fff;--ink:#14201c;--mut:#5d6b66;--line:#d9e0db;--acc:#0f6b5c;--accink:#fff;--D:#f0b429;--Dink:#3a2a00;--N:#3b3f8f;--R:#1f8a70;--A:#8a96a0;--F:#2f7fc1;--G:#c96a1b;--fes:#c0392b;--pos:#1e7d3a}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121815;--card:#1b2420;--ink:#e8efeb;--mut:#9aaaa3;--line:#2c3832;--acc:#3fbfa6;--accink:#06231c;--D:#d99a12;--Dink:#1d1400;--N:#7a80e0;--R:#35b394;--A:#6f7b84;--F:#5aa6e6;--G:#e08a3c;--fes:#ff7a6b;--pos:#5cc97a}}
+:root[data-theme="dark"]{--bg:#121815;--card:#1b2420;--ink:#e8efeb;--mut:#9aaaa3;--line:#2c3832;--acc:#3fbfa6;--accink:#06231c;--D:#d99a12;--Dink:#1d1400;--N:#7a80e0;--R:#35b394;--A:#6f7b84;--F:#5aa6e6;--G:#e08a3c;--fes:#ff7a6b;--pos:#5cc97a}
 *{box-sizing:border-box}
 :root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 html,body{height:100%;margin:0}
 body{background:var(--bg);color:var(--ink);font:15px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;display:flex;flex-direction:column}
 main{flex:1;overflow:auto;padding:10px 12px 16px;max-width:560px;width:100%;margin:0 auto}
 nav{display:flex;border-top:1px solid var(--line);background:var(--card)}
-nav button{flex:1;padding:12px 4px;background:none;border:0;color:var(--mut);font:inherit;font-weight:600}
+nav button{flex:1;padding:12px 2px;background:none;border:0;color:var(--mut);font:inherit;font-weight:600;font-size:14px}
 nav button.on{color:var(--acc);box-shadow:inset 0 3px 0 var(--acc)}
 .bar{display:flex;align-items:center;justify-content:space-between;margin:2px 0 8px}
 .bar h2{margin:0;font-size:20px}
 .bar button{width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:20px}
 .g{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
 .wd{text-align:center;color:var(--mut);font-size:12px;padding:2px 0}
-.c{min-height:58px;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:3px 4px;display:flex;flex-direction:column;justify-content:space-between;color:var(--ink);font:inherit;text-align:left}
-.c.e{visibility:hidden}.c.t{outline:2px solid var(--acc)}
+.c{min-height:60px;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:3px 3px;display:flex;flex-direction:column;justify-content:space-between;color:var(--ink);font:inherit;text-align:left;min-width:0}
+.c.e{visibility:hidden}.c.t{outline:2px solid var(--acc)}.c.m{border-style:dashed;border-color:var(--acc)}
 .c i{font-style:normal;font-size:12px}.c.f i{color:var(--fes);font-weight:700}
-.b{align-self:center;font-weight:700;font-size:12px;padding:1px 6px;border-radius:10px;color:#fff;min-width:22px;text-align:center}
-.b.D{background:var(--D);color:var(--Dink)}.b.N{background:var(--N)}.b.R{background:var(--R)}.b.A{background:var(--A)}
-.o{font-size:10px;color:var(--mut);text-align:center;height:12px}
+.b{align-self:center;font-weight:700;font-size:11px;padding:1px 5px;border-radius:10px;color:#fff;min-width:22px;text-align:center;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.b.D{background:var(--D);color:var(--Dink)}.b.N{background:var(--N)}.b.R{background:var(--R)}.b.A{background:var(--A)}.b.F{background:var(--F)}.b.G{background:var(--G)}
+.o{font-size:9px;color:var(--mut);text-align:center;min-height:11px;line-height:11px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
 .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin:10px 0}
 .card h3{margin:0 0 6px;font-size:15px}
-.r{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--line)}
-.r:last-child{border:0}.r b{font-variant-numeric:tabular-nums}.neg b{color:var(--fes)}
+.r{display:flex;justify-content:space-between;gap:10px;padding:5px 0;border-bottom:1px solid var(--line)}
+.r:last-child{border:0}.r b{font-variant-numeric:tabular-nums;white-space:nowrap}.neg b{color:var(--fes)}.pos b{color:var(--pos)}
+.r.k{font-weight:700}
 label{display:block;margin:10px 0 4px;font-weight:600}
 input,select,textarea{width:100%;font:inherit;padding:10px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
 .btn{padding:11px 14px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-weight:600}
 .btn.p{background:var(--acc);color:var(--accink);border-color:var(--acc)}
-.row{display:flex;gap:8px;margin-top:10px}.row>*{flex:1}
-.sh{position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:flex-end;justify-content:center}
-.sh>div{background:var(--card);width:100%;max-width:560px;border-radius:16px 16px 0 0;padding:14px 14px calc(14px + env(safe-area-inset-bottom,0px));max-height:90%;overflow:auto}
+.row{display:flex;gap:8px;margin-top:10px}.row>*{flex:1;min-width:0}
+.two{display:grid;grid-template-columns:1.6fr 1fr;gap:8px}
+.sh{position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:flex-end;justify-content:center;z-index:9}
+.sh>div{background:var(--card);width:100%;max-width:560px;border-radius:16px 16px 0 0;padding:14px 14px calc(14px + env(safe-area-inset-bottom,0px));max-height:92%;overflow:auto}
 .sh h3{margin:0 0 4px}.mut{color:var(--mut);font-size:13px}
-.tb{width:100%;border-collapse:collapse;font-size:12px}.tb th,.tb td{padding:4px 6px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}.tb th:first-child,.tb td:first-child{text-align:left}.tb tr.f td:first-child{color:var(--fes);font-weight:700}.sc{overflow-x:auto}.chk{display:flex;gap:10px;align-items:center;margin:8px 0}.chk input{width:auto}
+.tb{width:100%;border-collapse:collapse;font-size:12px}.tb th,.tb td{padding:4px 5px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}.tb th:first-child,.tb td:first-child{text-align:left}.tb tr.f td:first-child{color:var(--fes);font-weight:700}.tb.dd td:nth-child(2),.tb.dd td:nth-child(3),.tb.dd th:nth-child(2),.tb.dd th:nth-child(3){text-align:center}.tb td.n{color:var(--fes)}.sc{overflow-x:auto}
+.chk{display:flex;gap:10px;align-items:center;margin:8px 0;font-weight:400}.chk input{width:auto}
 .tag{display:inline-block;margin:2px 4px 2px 0;padding:4px 9px;border-radius:12px;background:var(--bg);border:1px solid var(--line);font-size:13px}
+.seg{display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}.seg button{flex:1;padding:10px;border:0;background:var(--card);color:var(--ink);font:inherit}.seg button.on{background:var(--acc);color:var(--accink);font-weight:600}
+.wk{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}.wk select{padding:8px 0;font-size:12px;text-align:center;-webkit-appearance:none;appearance:none}.wk span{text-align:center;font-size:12px;color:var(--mut)}
+details{margin:6px 0}summary{font-weight:600;cursor:pointer;padding:4px 0}
+.lg{font-size:13px}.lg div{padding:3px 0;border-bottom:1px solid var(--line)}.lg b{display:inline-block;min-width:60px}
+.big{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums}
+.kpi{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:6px 0}.kpi>div{background:var(--bg);border-radius:8px;padding:6px 8px}.kpi span{display:block;font-size:11px;color:var(--mut)}.kpi b{font-size:17px;font-variant-numeric:tabular-nums}
 </style>
 </head>
 <body>
 <main id="m"></main>
 <nav id="n"></nav>
 <script>
+"use strict";
+/* ====== CODICI (stesse sigle e regole del file TURNIELLI 2026) ====== */
 const MESI=["Gennaio","Febbraio","Marzo","Aprile","Maggio","Giugno","Luglio","Agosto","Settembre","Ottobre","Novembre","Dicembre"];
-const TURNI=[["","Automatico (ciclo)"],["-","Riposo"],["D","D · Diurno"],["N","N · Notturno"],["d1","d1 · Semiturno mattino 07-13"],["d2","d2 · Semiturno pomeriggio 13-19"],["n1","n1 · Semiturno sera 19-01"],["n1i","n1i · Sera fine mese 19-24"],["n1f","n1f · Sera inizio mese 00-01"],["n2","n2 · Semiturno notte 01-07"],["Ni","Ni · Notte fine mese 18:45-24"],["Nf","Nf · Notte inizio mese 00-07:15"],["R1","R1 · Reperibilità 01-13"],["R2","R2 · Reperibilità 13-01"],["RRRF","RRRF · Recupero riposo rep. festiva"],["F","F · Ferie (1 gg)"],["FF","FF · Ferie (2 gg)"],["AM","AM · Malattia"],["Mcs","Mcs · Malattia causa servizio"],["avis","Art.33 · AVIS"],["vacc","Art.33 · Vaccino"],["art24c","Art.24 · Concorsi/esami"],["art24l","Art.24 · Lutto"],["art24m","Art.24 · Matrimonio"],["prv","PRV · Permesso retribuito vario"],["pr53","L.53 · Permesso retribuito"],["prl","PRL · Permesso retribuito lutto"],["I","I · Infortunio"]];
-const CODICI=[["","Nessuno"],["art25","Art.25 (ex 32) · permesso personale (giornata intera = 6 ore)"],["St","St · Straordinario"],["StR","StR · Straord. reperibilità feriale"],["StRF","StRF · Straord. reperibilità festiva"],["StF","StF · Straord. festivo"],["L104","L104 · Permesso (ore)"],["art22","Art.22 (ex 35) · ore"],["PP","PP · Permesso personale"],["Rc","Rc · Riposo compensativo"],["StAm","StAm · Straord. con recupero malattia"],["StMcs","StMcs · Straord. malattia causa servizio"],["B","B · Banca ore (ore)"],["RcRF","RcRF · Riposo comp. rep. festiva"],["PRH","PRH · Permesso retribuito ad ore"],["RML","RML · Recupero malattia non coperta"],["S","S · Sciopero (ore)"],["ASS","ASS · Assemblea sindacale (ore)"],["PS","PS · Permesso sindacale (ore)"]];
-const STR=["St","StR","StRF","StF"],STT=["St","StR","StRF","StF","StAm","StMcs"],REP=12,DOV=6,GIU={F:6,FF:12,AM:12,Mcs:12,avis:12,vacc:12,prv:12,pr53:12,prl:12,art24c:12,art24l:12,art24m:12,I:12},GIUH=["art25","PRH","art22","L104","Rc","RcRF","ASS","PS"],LIM={art25:18,art22:18,art24c:8};
-const HR={D:[12,0],N:[4,8],d1:[6,0],d2:[6,0],n1:[3,3],n1i:[3,2],n1f:[0,1],n2:[1,5],Ni:[3,2],Nf:[1,6]},RISK={D:1,d1:1,d2:1,N:2,n1:1,n2:1,Ni:1,Nf:1,n1i:1,n1f:1,RRRF:1};
-const dflt=()=>({start:"",rip:[],days:{},f0:0,fm:32,bk:0,hx:[],sa:true,tr:17.5,tk:0.5,b0:0,pay:0,asg:0,from:"",rep:[]}),num=v=>parseFloat(String(v).replace(",","."))||0;
-let S=dflt(),cur=new Date(),Y=cur.getFullYear(),M=cur.getMonth(),tab="cal";
-try{const x=localStorage.getItem("turni_v1");if(x)S=Object.assign(S,JSON.parse(x))}catch(e){}
-const save=()=>{try{localStorage.setItem("turni_v1",JSON.stringify(S))}catch(e){}};
+const TG=[
+["Turni",[["D","D · Diurno 07:00-19:30 (12 h)"],["N","N · Notturno 18:45-07:15 (12 h: 4 diurne + 8 notturne)"],["d1","d1 · Semiturno mattino 07-13"],["d2","d2 · Semiturno pomeriggio 13-19"],["n1","n1 · Semiturno sera 19-01"],["n2","n2 · Semiturno notte 01-07"],["Ni","Ni · Notte a cavallo di fine mese 18:45-24"],["Nf","Nf · Notte a cavallo di inizio mese 00-07:15"],["n1i","n1i · Sera a cavallo di fine mese 19-24"],["n1f","n1f · Sera a cavallo di inizio mese 00-01"]]],
+["Giornaliero",[["G","G · Giornata lavorativa"],["SW","SW · Lavoro agile"]]],
+["Reperibilità",[["R1","R1 · Reperibilità 01-13"],["R2","R2 · Reperibilità 13-01"],["RF1","RF1 · Reperibilità festiva 01-13"],["RF2","RF2 · Reperibilità festiva 13-01"],["R1-6h","R1-6h · Rep. giornaliero 07-13"],["R2-6h","R2-6h · Rep. giornaliero 13-19"],["RRRF","RRRF · Recupero riposo rep. festiva"]]],
+["Ferie",[["F","F · Ferie (1 giorno)"],["FF","FF · Ferie (2 giorni, turno di 12 h)"]]],
+["Malattia",[["AM","AM · Malattia"],["Mcs","Mcs · Malattia causa servizio"],["RAm","RAm · Malattia senza certificato"],["RMcs","RMcs · Mal. causa serv. senza certificato"],["RAmd1","RAmd1 · Recupero malattia (d1)"],["RAmd2","RAmd2 · Recupero malattia (d2)"],["RMcsd1","RMcsd1 · Recupero mal. causa serv. (d1)"],["RMcsd2","RMcsd2 · Recupero mal. causa serv. (d2)"],["Ric","Ric · Ricovero"],["I","I · Infortunio"]]],
+["Permessi a giornata",[["L104","L104 · Legge 104 (giornata)"],["art24c","Art.24 (ex 31) · Concorsi/esami"],["art24l","Art.24 (ex 31) · Lutto"],["art24m","Art.24 (ex 31) · Matrimonio"],["avis","Art.33 c.4-5 · AVIS"],["vacc","Art.33 c.4-5 · Vaccino"],["prv","PRV · Permesso retribuito vario"],["pr53","L.53 · Permesso retribuito"]]],
+["Altre assenze",[["CT","CT · Cure termali"],["CP","CP · Congedo parentale"],["MB","MB · Malattia bambino"],["TS","TS · Terapia salvavita"],["CS","CS · Congedo cure invalidi"],["ASP","ASP · Aspettativa"],["AO","AO · Astensione obbligatoria"],["M","M · Missione"]]]];
+const OG=[
+["Permessi a ore",[["art25","Art.25 (ex 32) · motivi personali (giornata = 6:00)"],["art22","Art.22 (ex 35) · visite/esami"],["L104","L104 · Legge 104 a ore"],["pr53","L.53 · Permesso retribuito a ore"],["Fo","Fo · Ferie a ore (6:00 = 1 giorno)"],["AMo","AMo · Malattia a ore (12:00 = 1 giorno)"]]],
+["Straordinario",[["St","St · Straordinario"],["StR","StR · Straord. in reperibilità feriale"],["StRF","StRF · Straord. in reperibilità festiva"],["StF","StF · Straordinario festivo"],["StAm","StAm · Ore fatte prima di uscire in malattia"],["StMcs","StMcs · Ore fatte prima di mal. causa serv."]]],
+["Recuperi e banca",[["Rc","Rc · Riposo compensativo"],["RcRF","RcRF · Ore maturate da rep. festiva"],["B","B · Banca ore anno precedente"],["PP","PP · Permesso personale a debito"],["RML","RML · Recupero malattia (ore)"],["MLS","MLS · Malattia senza certificato (ore, ipotesi)"]]],
+["Sindacato",[["S","S · Sciopero"],["ASS","ASS · Assemblea sindacale"],["PS","PS · Permesso sindacale"]]]];
+const ALIAS={PRH:"art25",art32:"art25",art35:"art22",prl:"art24l"};
+const HR={D:[720,0],N:[240,480],d1:[360,0],d2:[360,0],n1:[180,180],n1i:[180,120],n1f:[0,60],n2:[60,300],Ni:[180,120],Nf:[60,360],RAmd1:[360,0],RAmd2:[360,0],RMcsd1:[360,0],RMcsd2:[360,0]};
+const RISK={D:1,N:2,d1:1,d2:1,n1:2,n1i:1,n1f:1,n2:1,Ni:1,Nf:1,RAmd1:1,RAmd2:1,RMcsd1:1,RMcsd2:1,RRRF:1};
+const GD=["F","FF","AM","Mcs","Ric","L104","avis","vacc","prv","pr53","art24c","art24l","art24m","I","CT","CP","MB","TS","CS","ASP","AO","M","RRRF"];
+const GH=["L104","art25","art22","pr53","Rc","RcRF","ASS","PS","Fo","AMo"];
+const STK=["St","StR","StRF","StF"],REP12=["R1","R2","RF1","RF2"],REP6=["R1-6h","R2-6h"],REPALL=REP12.concat(REP6);
+const DESC={};TG.concat(OG).forEach(g=>g[1].forEach(x=>{if(!DESC[x[0]])DESC[x[0]]=x[1]}));
+/* ====== STATO ====== */
+const dflt=()=>({v:2,tipo:"T",start:"",rip:[],from:"",rep:[],wk:["G","G","G","G","G","",""],days:{},f0:0,fm:"",fs:0,b0:0,r0:0,pay:0,sa:true,hx:[],tr:17.5,tk:0.5,asg:0,l25:18,l22:18,l24:8,bk:0});
 const p2=n=>String(n).padStart(2,"0"),key=(y,m,d)=>y+"-"+p2(m+1)+"-"+p2(d);
 const dn=(y,m,d)=>Math.floor(Date.UTC(y,m,d)/864e5),pd=s=>{const a=s.split("-");return dn(+a[0],a[1]-1,+a[2])};
+const isD=s=>/^\d{4}-\d{2}-\d{2}$/.test(s||"");
+const num=v=>parseFloat(String(v).replace(",","."))||0;
+/* ore: si scrivono "2:57" oppure "1,5"; si salvano in minuti */
+function pm(v){v=String(v==null?"":v).trim();if(!v)return 0;let s=1;if(v[0]=="-"){s=-1;v=v.slice(1)}if(v.includes(":")){const a=v.split(":");return s*((parseInt(a[0])||0)*60+(parseInt(a[1])||0))}return s*Math.round(num(v)*60)}
+const hm=n=>{n=Math.round(n||0);const s=n<0?"−":"";n=Math.abs(n);return s+Math.floor(n/60)+":"+p2(n%60)};
 const fmt=n=>(Math.round(n*100)/100).toString().replace(".",",");
+function fixCode(c){return ALIAS[c]||c||""}
+function migrate(o){/* copia della versione precedente (ore in decimali, un solo codice a ore) */
+ const n=dflt();["start","from","sa","tr","tk","asg","bk","f0"].forEach(k=>{if(o[k]!==undefined)n[k]=o[k]});
+ if(o.fm!==undefined&&o.fm!=="")n.fm=+o.fm;n.rip=Array.isArray(o.rip)?o.rip.filter(isD):[];n.hx=Array.isArray(o.hx)?o.hx.filter(isD):[];n.rep=Array.isArray(o.rep)?o.rep:[];
+ n.b0=Math.round(num(o.b0)*60);n.pay=Math.round(num(o.pay)*60);
+ for(const k in (o.days||{})){if(!isD(k))continue;const r=o.days[k]||{},x={};if(r.t)x.t=fixCode(r.t);if(r.c){x.c=fixCode(r.c);x.o=Math.round(num(r.o)*60)}if(x.t||x.c)n.days[k]=x}
+ return n}
+function load(o){if(!o||typeof o!="object"||typeof o.days!="object")throw 0;if(o.v!==2)return migrate(o);
+ const n=Object.assign(dflt(),o);n.rip=(n.rip||[]).filter(isD);n.hx=(n.hx||[]).filter(isD);if(!Array.isArray(n.rep))n.rep=[];if(!Array.isArray(n.wk)||n.wk.length!=7)n.wk=dflt().wk;if(n.start&&!isD(n.start))n.start="";if(n.from&&!isD(n.from))n.from="";
+ for(const k in n.days){if(!isD(k)){delete n.days[k];continue}const r=n.days[k];["t","c","c2"].forEach(f=>{if(r[f])r[f]=fixCode(r[f])})}return n}
+let S=dflt(),now=new Date(),Y=now.getFullYear(),M=now.getMonth(),tab="cal";
+try{const x=localStorage.getItem("turni_v2");if(x)S=load(JSON.parse(x));else{const v1=localStorage.getItem("turni_v1");if(v1){S=load(JSON.parse(v1));localStorage.setItem("turni_v2",JSON.stringify(S))}}}catch(e){S=dflt()}
+const save=()=>{try{localStorage.setItem("turni_v2",JSON.stringify(S))}catch(e){}};
+/* ====== CALENDARIO E FESTIVITÀ ====== */
 function easter(y){const a=y%19,b=Math.floor(y/100),c=y%100,d=Math.floor(b/4),e=b%4,f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),h=(19*a+b-d-g+15)%30,i=Math.floor(c/4),k=c%4,l=(32+2*e+2*i-h-k)%7,m=Math.floor((a+11*h+22*l)/451),t=h+l-7*m+114;return dn(y,Math.floor(t/31)-1,t%31+1)}
-function fest(y,m,d){if(new Date(Date.UTC(y,m,d)).getUTCDay()==0)return true;if(m==10&&d==30&&S.sa!==false)return true;if((S.hx||[]).includes(key(y,m,d)))return true;if([[0,1],[0,6],[3,25],[4,1],[5,2],[7,15],[10,1],[11,8],[11,25],[11,26]].some(x=>x[0]==m&&x[1]==d))return true;const x=dn(y,m,d),e=easter(y);return x==e||x==e+1}
-function auto(y,m,d){if(!S.start)return"";const x=dn(y,m,d);if(S.from&&x<pd(S.from))return"";let a=pd(S.start);S.rip.slice().sort().forEach(r=>{if(x>=pd(r))a=pd(r)});const k=(((x-a)%5)+5)%5;if(k==0)return"D";if(k==1)return"N";if(k>=3&&(S.rep||[]).length){const ky=key(y,m,d),p=S.rep.find(q=>q.r&&(!q.a||ky>=q.a)&&(!q.b||ky<=q.b));if(p){const j=((x+(5-k)-pd(p.r))%10+10)%10;if(k==4&&j==0)return"R1";if(k==3&&j==5)return"R2"}}return""}
+const wday=(y,m,d)=>new Date(Date.UTC(y,m,d)).getUTCDay();
+const ndays=(y,m)=>new Date(Date.UTC(y,m+1,0)).getUTCDate();
+function fest(y,m,d){if(wday(y,m,d)==0)return true;if(m==10&&d==30&&S.sa!==false)return true;if(S.hx.includes(key(y,m,d)))return true;if([[0,1],[0,6],[3,25],[4,1],[5,2],[7,15],[10,1],[11,8],[11,25],[11,26]].some(x=>x[0]==m&&x[1]==d))return true;const x=dn(y,m,d),e=easter(y);return x==e||x==e+1}
+const GDAY=()=>S.tipo=="G"?432:360; /* 36 ore settimanali: 6:00 su 6 giorni, 7:12 su 5 giorni */
+function lavor(y,m,d){if(fest(y,m,d))return false;if(S.tipo=="G"&&wday(y,m,d)==6)return false;return !(S.from&&dn(y,m,d)<pd(S.from))}
+function auto(y,m,d){const x=dn(y,m,d);if(S.from&&x<pd(S.from))return"";
+ if(S.tipo=="G"){if(fest(y,m,d))return"";return S.wk[(wday(y,m,d)+6)%7]||""}
+ if(!S.start)return"";let a=pd(S.start);S.rip.slice().sort().forEach(r=>{if(x>=pd(r))a=pd(r)});const k=(((x-a)%5)+5)%5;if(k==0)return"D";if(k==1)return"N";
+ if(k>=3&&S.rep.length){const ky=key(y,m,d),p=S.rep.find(q=>q.r&&(!q.a||ky>=q.a)&&(!q.b||ky<=q.b));if(p){const j=((x+(5-k)-pd(p.r))%10+10)%10;if(k==4&&j==0)return"R1";if(k==3&&j==5)return"R2"}}return""}
 function turno(y,m,d){const r=S.days[key(y,m,d)];if(r&&r.t)return r.t=="-"?"":r.t;return auto(y,m,d)}
-function calc(y,m){const t={dia:0,not:0,fes:0,rgF:0,rgH:0,rhF:0,rhH:0,str:0,fer:0,ferF:0,mal:0,art25:0,art22:0,l104:0,pp:0,rc:0,b:0,rcrf:0,a24c:0,a24l:0,a24m:0,a33:0,prv:0,inf:0,rrrf:0,rml:0,prh:0,sind:0,ris:0,dov:0,giu:0,s:{St:0,StR:0,StRF:0,StF:0,StAm:0,StMcs:0}},n=new Date(Date.UTC(y,m+1,0)).getUTCDate(),now=new Date(),tdn=dn(now.getFullYear(),now.getMonth(),now.getDate());
-for(let d=1;d<=n;d++){const T=turno(y,m,d),r=S.days[key(y,m,d)]||{},f=fest(y,m,d),o=+r.o||0,c=r.c||"",sh=STR.includes(c)?o:0;
-if(!f&&(!S.from||dn(y,m,d)>=pd(S.from)))t.dov+=DOV;t.ris+=RISK[T]||0;if(c=="StAm")t.ris++;if(c=="StMcs"&&o>=1)t.ris++;
-if(HR[T]){const h=HR[T];t.dia+=h[0];t.not+=h[1];if(f)t.fes+=h[0]+h[1]}
-else if(T=="R1"||T=="R2"){const h=Math.max(0,REP-sh);if(f){t.rgH++;t.rhH+=h}else{t.rgF++;t.rhF+=h}}
-else if(T=="F"||T=="FF"){const q=T=="F"?1:2;t.fer+=q;if(dn(y,m,d)<=tdn)t.ferF+=q}
-else if(T=="AM"||T=="Mcs")t.mal++;else if(T=="avis"||T=="vacc")t.a33++;else if(T=="prv"||T=="pr53"||T=="prl")t.prv++;else if(T=="I")t.inf++;else if(T=="RRRF")t.rrrf++;
-else if(T=="art24c")t.a24c++;else if(T=="art24l")t.a24l++;else if(T=="art24m")t.a24m++;
-t.giu+=(GIU[T]||0)+(GIUH.includes(c)?o:0);if(STT.includes(c)){t.s[c]+=o;t.str+=o}
-if(c=="PRH")t.prh+=o;if(c=="RML")t.rml+=o;if(c=="S"||c=="ASS"||c=="PS")t.sind+=o;if(c=="art25")t.art25+=o;if(c=="art22")t.art22+=o;if(c=="L104")t.l104+=o;if(c=="PP")t.pp+=o;if(c=="Rc")t.rc+=o;if(c=="B")t.b+=o;if(c=="RcRF")t.rcrf+=o}
-t.tot=t.dia+t.not;t.sal=t.tot+t.giu-t.dov;return t}
-function ycalc(y){const T={s:{}};for(let i=0;i<12;i++){const c=calc(y,i);for(const k in c){if(k=="s"){for(const j in c.s)T.s[j]=(T.s[j]||0)+c.s[j]}else T[k]=(T[k]||0)+c[k]}}return T}
-const R=(a,b,neg)=>`<div class="r${neg&&b<0?" neg":""}"><span>${a}</span><b>${typeof b=="number"?fmt(b):b}</b></div>`;
-function cls(T){return T=="D"||T=="d1"||T=="d2"?"D":T=="N"?"N":T=="R1"||T=="R2"?"R":"A"}
-function rows(t,y){const R=(a,b,neg)=>`<div class="r${neg&&b<0?" neg":""}"><span>${a}</span><b>${typeof b=="number"?fmt(b):b}</b></div>`;return R("Ore diurne",t.dia)+R("Ore notturne",t.not)+R("Ore di turno totali",t.tot)+R("di cui in giorni festivi",t.fes)}
-function view(){const m=$("#m");if(tab=="cal")cal(m);else if(tab=="mese")mese(m);else if(tab=="anno")anno(m);else if(tab=="sch")scheda(m);else imp(m);
-$("#n").innerHTML=[["cal","Calendario"],["mese","Mese"],["anno","Anno"],["sch","Scheda"],["imp","Impost."]].map(x=>`<button class="${tab==x[0]?"on":""}" data-t="${x[0]}">${x[1]}</button>`).join("");
-$("#n").querySelectorAll("button").forEach(b=>b.onclick=()=>{tab=b.dataset.t;view()})}
+function shiftMin(T,r,y,m,d){if(T=="G"||T=="SW"){const h=r&&r.h?r.h:GDAY();return[h,0]}return HR[T]||[0,0]}
+const codes=r=>{const a=[];if(r.c)a.push([r.c,+r.o||0]);if(r.c2)a.push([r.c2,+r.o2||0]);return a};
+/* ====== CALCOLO DEL MESE (stesse regole del file) ====== */
+function calc(y,m){const t={dia:0,not:0,fes:0,lav:0,giu:0,dov:0,ris:0,rep:0,repF:0,repH:0,repPay:0,repFm:0,repHm:0,nInt:0,nIntF:0,dn:0,sem:0,nnf:0,nn2:0,gsw:0,fe:0,feF:0,mal:0,c:{},g:{},risD:[]},n=ndays(y,m),td=dn(now.getFullYear(),now.getMonth(),now.getDate());
+ for(let d=1;d<=n;d++){const T=turno(y,m,d),P=auto(y,m,d),r=S.days[key(y,m,d)]||{},f=fest(y,m,d),cs=codes(r),x=dn(y,m,d);
+  if(lavor(y,m,d))t.dov+=GDAY();
+  const h=shiftMin(T,r),tot=h[0]+h[1];let ph=0,stk=0,int=false;
+  cs.forEach(([c,o])=>{t.c[c]=(t.c[c]||0)+o;if(GH.includes(c))ph+=o;if(STK.includes(c))stk+=o;if(c=="StR"||c=="StRF")int=true;if(c=="StR")t.nInt++;if(c=="StRF")t.nIntF++});
+  t.dia+=h[0];t.not+=h[1];if(f)t.fes+=tot;if(tot>0)t.lav+=tot-ph;
+  if(T)t.g[T]=(t.g[T]||0)+1;
+  /* ore giustificate */
+  if(GD.includes(T)){if(S.tipo=="G")t.giu+=lavor(y,m,d)?GDAY():0;else{const p=shiftMin(P,{},y,m,d);t.giu+=p[0]+p[1]}}
+  t.giu+=ph;
+  /* rischio */
+  let rk=RISK[T]||0;if(rk&&tot>0&&ph>=tot)rk=0;
+  cs.forEach(([c,o])=>{if(c=="StAm")rk++;if(c=="StMcs"&&o>=60)rk++});
+  if(REP12.includes(T)&&int)rk++;
+  if(d==n&&(T=="N"||T=="n1"))rk--;
+  if(d==1){const pm_=m?m-1:11,py=m?y:y-1,pt=turno(py,pm_,ndays(py,pm_));if(pt=="N"||pt=="n1")rk++}
+  t.ris+=rk;
+  /* reperibilità */
+  if(REPALL.includes(T)){const fr=f||T=="RF1"||T=="RF2",H=REP12.includes(T)?720:360,net=stk<H?H-stk:0;t.rep++;if(fr){t.repF++;t.repFm+=net}else{t.repH++;t.repHm+=net}if(!int)t.repPay++}
+  if(T=="D"||T=="N")t.dn++;if(["d1","d2","n1","n2"].includes(T))t.sem++;if(T=="N"||T=="Nf")t.nnf++;if(T=="n2")t.nn2++;if(T=="G"||T=="SW")t.gsw++;
+  const fe=(T=="F"?1:T=="FF"?2:0)+cs.filter(z=>z[0]=="Fo").reduce((a,z)=>a+z[1]/360,0);t.fe+=fe;if(x<=td)t.feF+=fe;
+  t.mal+=(T=="AM"||T=="Mcs"?1:0)+cs.filter(z=>z[0]=="AMo").reduce((a,z)=>a+z[1]/720,0)}
+ t.sal=t.lav+t.giu-t.dov;
+ const C=k=>t.c[k]||0;t.str=C("St")+C("StR")+C("StRF")+C("StF")+C("StAm")+C("StMcs");return t}
+function ycalc(y){const T={c:{},g:{}};for(let i=0;i<12;i++){const c=calc(y,i);for(const k in c){if(k=="c"||k=="g"){for(const j in c[k])T[k][j]=(T[k][j]||0)+c[k][j]}else if(typeof c[k]=="number")T[k]=(T[k]||0)+c[k]}}return T}
+/* ====== VISTE ====== */
 const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"&quot;");
+const R=(a,b,o)=>{o=o||{};const v=typeof b=="number"?(o.h?hm(b):fmt(b)):b;const c=o.s&&typeof b=="number"?(b<-0.5?" neg":b>0.5?" pos":""):"";return`<div class="r${c}${o.k?" k":""}"><span>${a}</span><b>${v}</b></div>`};
+const RZ=(a,b,o)=>b?R(a,b,o):"";
+function cls(T){if(["D","d1","d2","RAmd1","RAmd2","RMcsd1","RMcsd2"].includes(T))return"D";if(["N","n1","n2","Ni","Nf","n1i","n1f"].includes(T))return"N";if(REPALL.includes(T)||T=="RRRF")return"R";if(T=="F"||T=="FF")return"F";if(T=="G"||T=="SW")return"G";return"A"}
+function view(){const m=$("#m");({cal,mese,anno,sch:scheda,imp})[tab](m);
+ $("#n").innerHTML=[["cal","Calendario"],["mese","Mese"],["anno","Anno"],["sch","Scheda"],["imp","Impost."]].map(x=>`<button class="${tab==x[0]?"on":""}" data-t="${x[0]}">${x[1]}</button>`).join("");
+ $("#n").querySelectorAll("button").forEach(b=>b.onclick=()=>{tab=b.dataset.t;view();$("#m").scrollTop=0})}
 function bkBanner(){const has=S.start||Object.keys(S.days).length;if(!has)return"";const g=S.bk?Math.floor((Date.now()-S.bk)/864e5):null;if(g!==null&&g<=30)return"";return`<div class="card">${g===null?"Non hai ancora fatto una copia di sicurezza dei tuoi dati.":"L’ultima copia di sicurezza risale a "+g+" giorni fa."} <button class="btn" id="gb">Fai la copia</button></div>`}
-function saveFile(){const f=new File([JSON.stringify(S)],"turni-copia-"+new Date().toISOString().slice(0,10)+".json",{type:"application/json"}),mark=()=>{S.bk=Date.now();save();view()};if(navigator.canShare&&navigator.canShare({files:[f]})){navigator.share({files:[f],title:"Copia dei turni"}).then(mark).catch(()=>{});return}const a=document.createElement("a");a.href=URL.createObjectURL(f);a.download=f.name;document.body.appendChild(a);a.click();a.remove();mark()}
-function nav(delta){M+=delta;if(M<0){M=11;Y--}if(M>11){M=0;Y++}view()}
+function nav(dl){M+=dl;if(M<0){M=11;Y--}if(M>11){M=0;Y++}view()}
 function head(){return`<div class="bar"><button id="pv" aria-label="Mese precedente">‹</button><h2>${MESI[M]} ${Y}</h2><button id="nx" aria-label="Mese successivo">›</button></div>`}
 function wire(){$("#pv").onclick=()=>nav(-1);$("#nx").onclick=()=>nav(1)}
-function cal(m){const first=(new Date(Date.UTC(Y,M,1)).getUTCDay()+6)%7,n=new Date(Date.UTC(Y,M+1,0)).getUTCDate(),td=new Date();let h=head()+bkBanner()+(S.start?"":`<div class="card">Per generare la turnazione vai in <b>Impostazioni</b> e scrivi la data di un giorno in cui fai il diurno.</div>`)+`<div class="g">`+["L","M","M","G","V","S","D"].map(x=>`<div class="wd">${x}</div>`).join("");
-for(let i=0;i<first;i++)h+=`<div class="c e"></div>`;
-for(let d=1;d<=n;d++){const T=turno(Y,M,d),r=S.days[key(Y,M,d)]||{},isT=td.getFullYear()==Y&&td.getMonth()==M&&td.getDate()==d;
-h+=`<button class="c${fest(Y,M,d)?" f":""}${isT?" t":""}" data-d="${d}"><i>${d}</i>${T?`<span class="b ${cls(T)}">${T}</span>`:"<span></span>"}<span class="o">${r.c?r.c+(r.o?" "+fmt(+r.o):""):""}</span></button>`}
-m.innerHTML=h+`</div><p class="mut">Tocca un giorno per cambiare il turno o aggiungere ore (straordinario, permessi). I giorni rossi sono festivi.</p>`;wire();const gb=$("#gb");if(gb)gb.onclick=()=>{tab="imp";view()};
-m.querySelectorAll(".c[data-d]").forEach(b=>b.onclick=()=>edit(+b.dataset.d))}
-function opts(L,v){return L.map(x=>`<option value="${x[0]}"${x[0]==v?" selected":""}>${x[1]}</option>`).join("")}
-function edit(d){const k=key(Y,M,d),r=S.days[k]||{},T=turno(Y,M,d),s=document.createElement("div");s.className="sh";
-s.innerHTML=`<div><h3>${d} ${MESI[M]} ${Y}</h3><div class="mut">${fest(Y,M,d)?"Giorno festivo · ":""}Turno attuale: ${T||"riposo"}</div><label for="t">Turno o assenza</label><select id="t">${opts(TURNI,r.t||"")}</select><label for="c">Ore (straordinario, permessi)</label><select id="c">${opts(CODICI,r.c||"")}</select><label for="o">Numero di ore (es. 1,5 = 1h30; Art.25 giornata intera = 6)</label><input id="o" inputmode="decimal" value="${r.o?String(r.o).replace(".",","):""}"><div class="mut" id="lm"></div><div class="row"><button class="btn" id="x">Annulla</button><button class="btn" id="z">Azzera giorno</button><button class="btn p" id="ok">Salva</button></div></div>`;
-document.body.appendChild(s);s.onclick=e=>{if(e.target==s)s.remove()};
-$("#x").onclick=()=>s.remove();const lm=()=>{const c=$("#c").value,T=ycalc(Y),L={art25:["Art.25 (ex 32)",LIM.art25,T.art25],art22:["Art.22 (ex 35)",LIM.art22,T.art22]}[c];$("#lm").textContent=L?L[0]+": usate "+fmt(L[2])+" ore su "+L[1]+" nell’anno (residuo "+fmt(L[1]-L[2])+")":""};$("#c").onchange=()=>{if($("#c").value=="art25"&&!$("#o").value)$("#o").value="6";lm()};lm();$("#z").onclick=()=>{delete S.days[k];save();s.remove();view()};
-$("#ok").onclick=()=>{const t=$("#t").value,c=$("#c").value,o=parseFloat($("#o").value.replace(",","."))||0;if(!t&&!c)delete S.days[k];else S.days[k]={t,c,o:c?o:0};save();s.remove();view()}}
-function mese(m){const t=calc(Y,M);let prog=0;for(let i=0;i<=M;i++)prog+=calc(Y,i).sal;const ya=ycalc(Y),sem=ya.sal<0?Math.ceil(-ya.sal/DOV-1e-9):0;m.innerHTML=head()+`<div class="card"><h3>Ore di turno</h3>${rows(t)}${R("Ore dovute (monte ore del mese)",t.dov)}${R("Ore giustificate (ferie, malattia, permessi)",t.giu)}${R("Saldo del mese (turno + giustificate − dovute)",t.sal,1)}${R("Saldo progressivo da gennaio",prog,1)}${R("Semiturni da 6 ore ancora da fare nell’anno",sem)}</div><div class="card"><h3>Reperibilità e rischio</h3>${R("Reperibilità feriale: giorni · ore nette",t.rgF+" · "+fmt(t.rhF))}${R("Reperibilità festiva: giorni · ore nette",t.rgH+" · "+fmt(t.rhH))}${R("Giorni di rischio",t.ris)}${R("Importo reperibilità",(t.rgF+t.rgH)*S.tr)}${R("Importo rischio",t.ris*S.tk)}<p class="mut">Ogni R1/R2 vale ${REP} ore, meno lo straordinario svolto lo stesso giorno. Le tariffe si cambiano in Impostazioni.</p></div><div class="card"><h3>Straordinario e permessi</h3>${R("Straordinario totale (ore)",t.str)+R("· St",t.s.St)+R("· StR",t.s.StR)+R("· StRF",t.s.StRF)+R("· StF",t.s.StF)+R("· StAm / StMcs",t.s.StAm+t.s.StMcs)+R("Riposo compensativo Rc",t.rc)+R("Banca ore B",t.b)+R("RcRF",t.rcrf)+R("Art.25 (ex 32) ore",t.art25)+R("Art.22 (ex 35) ore",t.art22)+R("L104 ore",t.l104)+R("Permesso personale PP ore",t.pp)+R("PRH permesso retribuito ad ore",t.prh)+R("RML recupero malattia (ore)",t.rml)+R("Sindacato S / ASS / PS (ore)",t.sind)}</div><div class="card"><h3>Giorni di assenza</h3>${R("Ferie",t.fer)+R("Malattia",t.mal)+R("Art.24 concorsi/esami",t.a24c)+R("Art.24 lutto",t.a24l)+R("Art.24 matrimonio",t.a24m)+R("Art.33 AVIS/vaccino",t.a33)+R("Permessi retribuiti PRV / L.53 / PRL (gg)",t.prv)+R("Infortunio (gg)",t.inf)+R("RRRF recupero riposo rep. festiva (gg)",t.rrrf)}</div>`;wire()}
-function anno(m){const T=ycalc(Y),sp=(+S.f0||0)+(+S.fm||0),mo=T.dov,rep=T.rgF+T.rgH,res=(+S.b0||0)+T.str-T.b-T.rc-T.pp-(+S.pay||0);
-m.innerHTML=`<div class="bar"><button id="pv" aria-label="Anno precedente">‹</button><h2>Anno ${Y}</h2><button id="nx" aria-label="Anno successivo">›</button></div><div class="card"><h3>Ore</h3>${R("Diurne",T.dia)+R("Notturne",T.not)+R("Turno totali",T.tot)+R("Festive",T.fes)+R("Monte ore annuo (ore dovute)",mo)+R("Ore giustificate (ferie, malattia, permessi)",T.giu)+R("Saldo (turno + giustificate − monte ore)",T.sal,1)+R("Semiturni da 6 ore da fare per chiudere a pari",T.sal<0?Math.ceil(-T.sal/DOV-1e-9):0)+R("Stato",Math.abs(T.sal)<0.01?"monte ore a pari":T.sal<0?"mancano "+fmt(-T.sal)+" ore":"credito di "+fmt(T.sal)+" ore")+R("Reperibilità feriale (ore nette)",T.rhF)+R("Reperibilità festiva (ore nette)",T.rhH)}</div><div class="card"><h3>Ferie</h3>${R("Spettanti (residuo + maturate)",sp)+R("Fatte (fino a oggi)",T.ferF)+R("Da fare (programmate dopo oggi)",T.fer-T.ferF)+R("Rimanenti da programmare",sp-T.fer,1)}</div><div class="card"><h3>Straordinari</h3>${R("Banca ore anno precedente",+S.b0||0)+R("Maturato: St",T.s.St)+R("Maturato: StR",T.s.StR)+R("Maturato: StRF",T.s.StRF)+R("Maturato: StF",T.s.StF)+R("Maturato: StAm / StMcs",(T.s.StAm||0)+(T.s.StMcs||0))+R("Totale maturato",T.str)+R("Banca ore fruita (B)",T.b)+R("Recuperato (Rc)",T.rc)+R("Permesso personale a debito (PP)",T.pp)+R("Messo in pagamento",+S.pay||0)+R("RESIDUO",res,1)}<p class="mut">Residuo = banca anno prec. + maturato − B − Rc − PP − pagato. Banca e pagato si inseriscono in Impostazioni.</p></div><div class="card"><h3>Reperibilità e rischio</h3>${R("Giorni di reperibilità",rep)+R("Giorni di rischio",T.ris)+R("Importo reperibilità",rep*S.tr)+R("Importo rischio",T.ris*S.tk)+R("Totale importi",rep*S.tr+T.ris*S.tk)+R("Assegnazione (da Impostazioni)",+S.asg||0)+R("Differenza (assegnazione − importi)",(+S.asg||0)-(rep*S.tr+T.ris*S.tk),1)}</div><div class="card"><h3>Residui permessi</h3>${R("Art.25 (ex 32): ore residue su "+LIM.art25,LIM.art25-T.art25,1)+R("Art.22 (ex 35): ore residue su "+LIM.art22,LIM.art22-T.art22,1)+R("Art.24 concorsi/esami: giorni residui su "+LIM.art24c,LIM.art24c-T.a24c,1)}</div><div class="card"><h3>Altro</h3>${R("Giorni di ferie",T.fer)+R("Giorni di malattia",T.mal)+R("Ore L104",T.l104)+R("Ore riposo comp. RcRF",T.rcrf)+R("Permessi retribuiti PRV / L.53 / PRL (gg)",T.prv)+R("Infortunio (gg)",T.inf)+R("Giorni RRRF",T.rrrf)+R("PRH permesso retribuito ad ore",T.prh)+R("RML recupero malattia (ore)",T.rml)+R("Sindacato S / ASS / PS (ore)",T.sind)}</div>`;
-$("#pv").onclick=()=>{Y--;view()};$("#nx").onclick=()=>{Y++;view()}}
-function scheda(m){const n=new Date(Date.UTC(Y,M+1,0)).getUTCDate(),W=["Do","Lu","Ma","Me","Gi","Ve","Sa"];let h=head()+`<div class="card"><h3>Giorno per giorno</h3><div class="sc"><table class="tb"><tr><th>Giorno</th><th>Turno</th><th>Codice</th><th>Ore turno</th><th>Ore dil.</th></tr>`;
-for(let d=1;d<=n;d++){const T=turno(Y,M,d),r=S.days[key(Y,M,d)]||{},H=HR[T]||[0,0],wd=W[new Date(Date.UTC(Y,M,d)).getUTCDay()];h+=`<tr class="${fest(Y,M,d)?"f":""}"><td>${d} ${wd}</td><td>${T||"-"}</td><td>${r.c?r.c+" "+fmt(+r.o||0):""}</td><td>${H[0]+H[1]?fmt(H[0]+H[1]):""}</td><td>${H[1]?fmt(H[1]):""}</td></tr>`}
-h+=`</table></div><p class="mut">Ore dil. = ore notturne (22-06). La pausa psicofisica di mezz’ora non è lavorata: è tolta dalle ore diurne (18:45-19:15), mai da quelle notturne. I giorni in rosso sono festivi.</p></div><div class="card"><h3>Mese per mese ${Y}</h3><div class="sc"><table class="tb"><tr><th>Mese</th><th>Dil.</th><th>Not.</th><th>Fest.</th><th>Rep</th><th>Rischio</th><th>Strao</th><th>Ferie</th><th>Malat.</th><th>Dovute</th><th>Saldo</th></tr>`;
-const Z={dia:0,not:0,fes:0,rep:0,ris:0,str:0,fer:0,mal:0,dov:0,sal:0};
-for(let i=0;i<12;i++){const c=calc(Y,i),v={dia:c.dia,not:c.not,fes:c.fes,rep:c.rgF+c.rgH,ris:c.ris,str:c.str,fer:c.fer,mal:c.mal,dov:c.dov,sal:c.tot-c.dov};for(const k in v)Z[k]+=v[k];h+=`<tr><td>${MESI[i].slice(0,3)}</td>${Object.keys(Z).map(k=>`<td>${fmt(v[k])}</td>`).join("")}</tr>`}
-h+=`<tr><td><b>Tot.</b></td>${Object.keys(Z).map(k=>`<td><b>${fmt(Z[k])}</b></td>`).join("")}</tr></table></div></div>`;m.innerHTML=h;wire()}
-function imp(m){m.innerHTML=`<div class="card"><h3>Turnazione automatica</h3><div class="mut">Ciclo: diurno, notturno, smonto, riposo, riposo. Scrivi la data di un giorno in cui fai il diurno: da lì il ciclo si compila su tutto il calendario.</div><label for="s">Un giorno in cui fai il diurno (D)</label><input id="s" type="date" value="${S.start}"><label for="r">Ripartenza del ciclo (data di un D)</label><div class="row"><input id="r" type="date"><button class="btn" id="ar">Aggiungi</button></div><div id="rl">${S.rip.slice().sort().map(x=>`<span class="tag">${x.split("-").reverse().join("/")} <a href="#" data-x="${x}">✕</a></span>`).join("")}</div><div class="mut">Usa la ripartenza se da una certa data il tuo ciclo cambia (slittamento, cambio squadra). I singoli giorni si possono sempre modificare dal calendario.</div><label for="sv">In servizio dal (facoltativo)</label><input id="sv" type="date" value="${S.from||""}"><div class="mut">Prima di questa data non compaiono turni e il monte ore parte da qui (utile se sei stato assunto in corso d’anno).</div></div><div class="card"><h3>Reperibilità automatica R1/R2</h3><div class="mut">Indica un periodo e la data di UN diurno (D) preceduto da una R1. La R1 cade il giorno prima di quel D, la R2 due giorni prima del D successivo, poi di nuovo R1 e così via (ciclo di 10 giorni). Segue il tuo ciclo D: se il ciclo cambia, si sposta con i tuoi D. I singoli giorni si modificano dal calendario.</div><label for="rpr">Un D preceduto da R1 (data)</label><input id="rpr" type="date"><label for="rpa">Dal (facoltativo)</label><input id="rpa" type="date"><label for="rpb">Al (facoltativo)</label><input id="rpb" type="date"><div class="row"><button class="btn" id="arp">Aggiungi periodo</button></div><div>${(S.rep||[]).map((p,i)=>`<span class="tag">${p.a?p.a.split("-").reverse().join("/"):"inizio"} → ${p.b?p.b.split("-").reverse().join("/"):"senza fine"} · D con R1: ${p.r.split("-").reverse().join("/")} <a href="#" data-p="${i}">✕</a></span>`).join("")}</div></div><div class="card"><h3>Ferie</h3><label for="f0">Giorni residui dall’anno precedente</label><input id="f0" inputmode="decimal" value="${S.f0}"><label for="fm">Giorni maturati nell’anno</label><input id="fm" inputmode="decimal" value="${S.fm}"></div><div class="card"><h3>Festività</h3><div class="mut">Sono incluse le feste nazionali, Pasqua e Pasquetta. Per la Liguria non risulta una festività regionale prevista per legge: se il tuo contratto ne prevede una (o un’altra festa locale) aggiungila qui sotto.</div><label class="chk"><input type="checkbox" id="sa"${S.sa!==false?" checked":""}> Sant’Andrea (30/11, patrono di Sarzana) è festivo</label><label for="hx">Altra festività (data)</label><div class="row"><input id="hx" type="date"><button class="btn" id="ah">Aggiungi</button></div><div>${(S.hx||[]).slice().sort().map(x=>`<span class="tag">${x.split("-").reverse().join("/")} <a href="#" data-h="${x}">✕</a></span>`).join("")}</div><div class="mut">Le date aggiunte valgono solo per l’anno indicato.</div></div><div class="card"><h3>Tariffe e straordinari</h3><label for="tr">Importo per ogni reperibilità</label><input id="tr" inputmode="decimal" value="${String(S.tr).replace(".",",")}"><label for="tk">Importo per ogni giorno di rischio</label><input id="tk" inputmode="decimal" value="${String(S.tk).replace(".",",")}"><label for="b0">Banca ore anno precedente (ore)</label><input id="b0" inputmode="decimal" value="${String(S.b0).replace(".",",")}"><label for="pay">Ore di straordinario messe in pagamento</label><input id="pay" inputmode="decimal" value="${String(S.pay).replace(".",",")}"><label for="asg">Assegnazione annua reperibilità + rischio (importo)</label><input id="asg" inputmode="decimal" value="${String(S.asg||0).replace(".",",")}"></div><div class="card"><h3>Copia di sicurezza</h3><div class="mut">Copia questo testo e conservalo (es. in una nota): per ripristinare i dati su un altro telefono incollalo qui sotto e tocca “Ripristina dal testo”. In alternativa salva un file e ripristinalo da lì.</div><textarea id="bk" rows="4">${JSON.stringify(S).replace(/&/g,"&amp;").replace(/</g,"&lt;")}</textarea><div class="mut" id="lb">${S.bk?"Ultima copia: "+new Date(S.bk).toLocaleDateString("it-IT"):"Non hai ancora fatto nessuna copia."}</div><div class="row"><button class="btn" id="cp">Copia il testo</button><button class="btn" id="sf">Salva come file</button></div><label for="lf">Ripristina da file</label><input id="lf" type="file" accept=".json,application/json"><div class="row"><button class="btn p" id="rs">Ripristina dal testo</button></div><div class="row"><button class="btn" id="dl">Cancella tutti i dati</button></div></div>`;
-$("#s").onchange=e=>{S.start=e.target.value;save()};
-$("#ar").onclick=()=>{const v=$("#r").value;if(v&&!S.rip.includes(v)){S.rip.push(v);save();view()}};
-m.querySelectorAll("[data-x]").forEach(a=>a.onclick=e=>{e.preventDefault();S.rip=S.rip.filter(x=>x!=a.dataset.x);save();view()});
-$("#sv").onchange=e=>{S.from=e.target.value;save()};$("#arp").onclick=()=>{const r=$("#rpr").value;if(!r){alert("Scrivi la data di un D preceduto da una R1.");return}S.rep.push({a:$("#rpa").value,b:$("#rpb").value,r});save();view()};m.querySelectorAll("[data-p]").forEach(x=>x.onclick=e=>{e.preventDefault();S.rep.splice(+x.dataset.p,1);save();view()});
-$("#f0").onchange=e=>{S.f0=parseFloat(e.target.value.replace(",","."))||0;save()};$("#fm").onchange=e=>{S.fm=parseFloat(e.target.value.replace(",","."))||0;save()};
-$("#sa").onchange=e=>{S.sa=e.target.checked;save()};
-$("#ah").onclick=()=>{const v=$("#hx").value;if(v&&!S.hx.includes(v)){S.hx.push(v);save();view()}};
-m.querySelectorAll("[data-h]").forEach(a=>a.onclick=e=>{e.preventDefault();S.hx=S.hx.filter(x=>x!=a.dataset.h);save();view()});
-["tr","tk","b0","pay","asg"].forEach(k=>{$("#"+k).onchange=e=>{S[k]=num(e.target.value);save()}});
-$("#cp").onclick=()=>{const b=$("#bk");b.select();try{navigator.clipboard.writeText(b.value)}catch(e){document.execCommand("copy")}S.bk=Date.now();save();$("#lb").textContent="Ultima copia: "+new Date(S.bk).toLocaleDateString("it-IT")};
-const rest=t=>{try{const o=JSON.parse(t);if(typeof o.days!="object"||!Array.isArray(o.rip))throw 0;o.rip=o.rip.filter(x=>/^\d{4}-\d{2}-\d{2}$/.test(x));if(o.start&&!/^\d{4}-\d{2}-\d{2}$/.test(o.start))o.start="";S=Object.assign(dflt(),o);if(!Array.isArray(S.hx))S.hx=[];if(!Array.isArray(S.rep))S.rep=[];S.bk=Date.now();save();view()}catch(e){alert("Copia non valida: usa il testo o il file completo della copia di sicurezza.")}};
-$("#rs").onclick=()=>rest($("#bk").value);$("#sf").onclick=saveFile;$("#lf").onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>rest(String(r.result));r.readAsText(f)};
-$("#dl").onclick=()=>{if(confirm("Cancellare tutti i dati di questa app?")){S=dflt();save();view()}}}
+function cal(m){const first=(wday(Y,M,1)+6)%7,n=ndays(Y,M),t=calc(Y,M);
+ const setup=S.tipo=="G"?"":S.start?"":`<div class="card">Per generare la turnazione vai in <b>Impost.</b> e scrivi la data di un giorno in cui fai il diurno (D).</div>`;
+ let h=head()+bkBanner()+setup+`<div class="g">`+["L","M","M","G","V","S","D"].map(x=>`<div class="wd">${x}</div>`).join("");
+ for(let i=0;i<first;i++)h+=`<div class="c e"></div>`;
+ for(let d=1;d<=n;d++){const T=turno(Y,M,d),r=S.days[key(Y,M,d)]||{},isT=now.getFullYear()==Y&&now.getMonth()==M&&now.getDate()==d,cs=codes(r),mod=r.t&&r.t!==auto(Y,M,d)&&!(r.t=="-"&&!auto(Y,M,d));
+  const o=cs.length>1?cs.map(z=>z[0]).join("+"):cs.map(z=>z[0]+(z[1]?" "+hm(z[1]):"")).join("");
+  h+=`<button class="c${fest(Y,M,d)?" f":""}${isT?" t":""}${mod?" m":""}" data-d="${d}"><i>${d}</i>${T?`<span class="b ${cls(T)}">${T}</span>`:"<span></span>"}<span class="o">${esc(o)}</span></button>`}
+ h+=`</div><div class="card"><div class="kpi"><div><span>Saldo mese</span><b>${hm(t.sal)}</b></div><div><span>Rep. / rischio</span><b>${t.rep} / ${t.ris}</b></div><div><span>Straord.</span><b>${hm(t.str)}</b></div></div></div><p class="mut">Tocca un giorno per cambiare il turno o aggiungere ore (straordinario, permessi). I giorni con il bordo tratteggiato sono stati modificati a mano; i numeri rossi sono festivi.</p>`;
+ m.innerHTML=h;wire();const gb=$("#gb");if(gb)gb.onclick=()=>{tab="imp";view()};m.querySelectorAll(".c[data-d]").forEach(b=>b.onclick=()=>edit(+b.dataset.d))}
+function optg(G,v,first){let h=first.map(x=>`<option value="${x[0]}"${x[0]==v?" selected":""}>${esc(x[1])}</option>`).join("");let found=first.some(x=>x[0]==v);
+ G.forEach(g=>{h+=`<optgroup label="${g[0]}">`+g[1].map(x=>{if(x[0]==v)found=true;return`<option value="${x[0]}"${x[0]==v?" selected":""}>${esc(x[1])}</option>`}).join("")+`</optgroup>`});
+ if(!found&&v)h+=`<option value="${esc(v)}" selected>${esc(v)} (sigla non in elenco)</option>`;return h}
+function edit(d){const k=key(Y,M,d),r=S.days[k]||{},A=auto(Y,M,d),s=document.createElement("div");s.className="sh";
+ const f=fest(Y,M,d),hv=x=>x?hm(x):"";
+ s.innerHTML=`<div><h3>${["Domenica","Lunedì","Martedì","Mercoledì","Giovedì","Venerdì","Sabato"][wday(Y,M,d)]} ${d} ${MESI[M]} ${Y}</h3><div class="mut">${f?"Giorno festivo · ":""}Previsto dal ciclo: ${A||"riposo"}</div>
+ <label for="t">Turno o assenza</label><select id="t">${optg(TG,r.t||"",[["","Come previsto ("+(A||"riposo")+")"],["-","Riposo"]])}</select>
+ <div id="hw"><label for="h">Ore della giornata G / SW</label><input id="h" inputmode="text" placeholder="vuoto = ${hm(GDAY())}" value="${hv(r.h)}"></div>
+ <label for="c">Ore (straordinario, permessi)</label><div class="two"><select id="c">${optg(OG,r.c||"",[["","Nessuno"]])}</select><input id="o" inputmode="text" placeholder="h:mm" value="${hv(r.o)}"></div>
+ <label for="c2">Secondo codice a ore (facoltativo)</label><div class="two"><select id="c2">${optg(OG,r.c2||"",[["","Nessuno"]])}</select><input id="o2" inputmode="text" placeholder="h:mm" value="${hv(r.o2)}"></div>
+ <div class="mut" style="margin-top:6px">Le ore si scrivono come 2:57 oppure 1,5 (= 1:30).</div><div class="mut" id="lm"></div>
+ <div class="row"><button class="btn" id="x">Annulla</button><button class="btn" id="z">Azzera</button><button class="btn p" id="ok">Salva</button></div></div>`;
+ document.body.appendChild(s);s.onclick=e=>{if(e.target==s)s.remove()};
+ const hw=()=>{const v=$("#t").value||A;$("#hw").style.display=(v=="G"||v=="SW")?"":"none"};$("#t").onchange=hw;hw();
+ const lm=()=>{const T=ycalc(Y),L={art25:["Art.25 (ex 32)",S.l25*60,T.c.art25||0],art22:["Art.22 (ex 35)",S.l22*60,T.c.art22||0]};const msg=["c","c2"].map(id=>L[$("#"+id).value]).filter(Boolean).map(l=>l[0]+": usate "+hm(l[2])+" su "+hm(l[1])+" nell’anno (residuo "+hm(l[1]-l[2])+")");$("#lm").textContent=msg.join(" · ")};
+ ["c","c2"].forEach(id=>{$("#"+id).onchange=()=>{const o=$("#"+(id=="c"?"o":"o2"));if($("#"+id).value=="art25"&&!o.value)o.value="6:00";lm()}});lm();
+ $("#x").onclick=()=>s.remove();$("#z").onclick=()=>{delete S.days[k];save();s.remove();view()};
+ $("#ok").onclick=()=>{const x={},t=$("#t").value,c=$("#c").value,c2=$("#c2").value,h=pm($("#h").value);if(t)x.t=t;if(c){x.c=c;x.o=pm($("#o").value)}if(c2){x.c2=c2;x.o2=pm($("#o2").value)}if(h&&(t||A)&&["G","SW"].includes(t||A))x.h=h;
+  if(Object.keys(x).length)S.days[k]=x;else delete S.days[k];save();s.remove();view()}}
+function mese(m){const t=calc(Y,M);let prog=0;for(let i=0;i<=M;i++)prog+=calc(Y,i).sal;const C=k=>t.c[k]||0,Gc=k=>t.g[k]||0;
+ m.innerHTML=head()+`<div class="card"><h3>Monte ore</h3>${R("Ore lavorate (turni, permessi interni tolti)",t.lav,{h:1})+R("Ore giustificate (ferie, malattia, permessi)",t.giu,{h:1})+R("Ore dovute",t.dov,{h:1})+R("Saldo del mese",t.sal,{h:1,s:1,k:1})+R("Saldo progressivo da gennaio",prog,{h:1,s:1})}<p class="mut">Saldo = lavorate + giustificate − dovute (${hm(GDAY())} per ogni giorno lavorativo${S.tipo=="G"?" lun-ven":" non domenicale"} e non festivo). Reperibilità e straordinari non entrano nel monte ore.</p></div>
+ <div class="card"><h3>Ore di turno</h3>${R("Diurne",t.dia,{h:1})+R("Notturne (22-06)",t.not,{h:1})+R("In giorni festivi",t.fes,{h:1})+RZ("Turni D + N",t.dn)+RZ("Semiturni",t.sem)+RZ("Notti N + Nf",t.nnf)+RZ("Notti n2",t.nn2)+RZ("Giornate G / SW",t.gsw)}</div>
+ <div class="card"><h3>Reperibilità e rischio</h3>${R("Reperibilità totali",t.rep)+R("· feriali (ore nette)",t.repH+" · "+hm(t.repHm))+R("· festive (ore nette)",t.repF+" · "+hm(t.repFm))+R("Reperibilità da pagare (senza intervento)",t.repPay)+RZ("Interventi StR / StRF",t.nInt+t.nIntF)+R("Giorni di rischio",t.ris,{k:1})+R("Importo reperibilità",fmt(t.repPay*S.tr)+" €")+R("Importo rischio",fmt(t.ris*S.tk)+" €")}<p class="mut">Rischio: D=1, N=2, n1=2, altri semiturni/Ni/Nf/RRRF=1; +1 per reperibilità con intervento; 0 per un turno coperto tutto da permessi; una N l’ultimo giorno del mese conta 1 qui e 1 nel mese dopo; +1 per StAm e per StMcs da almeno 1:00.</p></div>
+ <div class="card"><h3>Straordinario e permessi a ore</h3>${R("Straordinario totale",t.str,{h:1})+["St","StR","StRF","StF","StAm","StMcs","Rc","B","PP","RcRF","art25","art22","L104","pr53","Fo","AMo","RML","MLS","S","ASS","PS"].map(k=>RZ("· "+(DESC[k]||k).split(" · ")[0]+" "+((DESC[k]||"").split(" · ")[1]||""),C(k),{h:1})).join("")}</div>
+ <div class="card"><h3>Giorni di assenza</h3>${R("Ferie (giorni)",t.fe)+R("Malattia (giorni)",t.mal)+GD.concat(["RAm","RMcs","RAmd1","RAmd2","RMcsd1","RMcsd2"]).filter(k=>!["F","FF","AM","Mcs"].includes(k)).map(k=>RZ(DESC[k]||k,Gc(k))).join("")}</div>`;wire()}
+function anno(m){const T=ycalc(Y),C=k=>T.c[k]||0,G=k=>T.g[k]||0,fm=S.fm===""||S.fm==null?(S.tipo=="G"?28:32):+S.fm,sp=(+S.f0||0)+fm+(+S.fs||0),
+ res=(+S.b0||0)+T.str-C("B")-C("Rc")-C("PP")-(+S.pay||0),rcr=(+S.r0||0)+C("RcRF")-G("RRRF")*360,imp=T.repPay*S.tr+T.ris*S.tk,sem=T.sal<0?Math.ceil(-T.sal/GDAY()-1e-9):0;
+ m.innerHTML=`<div class="bar"><button id="pv" aria-label="Anno precedente">‹</button><h2>Anno ${Y}</h2><button id="nx" aria-label="Anno successivo">›</button></div>
+ <div class="card"><h3>Monte ore</h3><div class="big">${hm(T.sal)}</div><div class="mut">${Math.abs(T.sal)<1?"Monte ore a pari":T.sal<0?"Mancano "+hm(-T.sal)+" ore = "+sem+" semiturni da "+hm(GDAY()):"Credito di "+hm(T.sal)+" ore"}</div>${R("Ore dovute",T.dov,{h:1})+R("Ore lavorate",T.lav,{h:1})+R("Ore giustificate",T.giu,{h:1})+R("Diurne / notturne",hm(T.dia)+" / "+hm(T.not))+R("Ore in festivi",T.fes,{h:1})}</div>
+ <div class="card"><h3>Ferie</h3>${R("Residuo anno precedente",+S.f0||0)+R("Spettanti nell’anno",fm)+RZ("Festività soppresse",+S.fs||0)+R("Totale",sp,{k:1})+R("Fatte (fino a oggi)",T.feF)+R("Programmate dopo oggi",T.fe-T.feF)+R("Rimanenti da programmare",sp-T.fe,{s:1,k:1})}</div>
+ <div class="card"><h3>Straordinari</h3>${R("Banca ore anno precedente",+S.b0||0,{h:1})+["St","StR","StRF","StF","StAm","StMcs"].map(k=>RZ("Maturato "+k,C(k),{h:1})).join("")+R("Totale maturato",T.str,{h:1})+R("Banca ore fruita (B)",C("B"),{h:1})+R("Recuperato (Rc)",C("Rc"),{h:1})+R("Permesso personale a debito (PP)",C("PP"),{h:1})+R("Messo in pagamento",+S.pay||0,{h:1})+R("RESIDUO",res,{h:1,s:1,k:1})}<div class="mut">Interventi in reperibilità: StR ${T.nInt} · StRF ${T.nIntF}</div></div>
+ <div class="card"><h3>Reperibilità festive (RcRF / RRRF)</h3>${R("RcRF anno precedente",+S.r0||0,{h:1})+R("RcRF maturate",C("RcRF"),{h:1})+R("Giornate RRRF (6:00 l’una)",G("RRRF"))+R("RESIDUO RcRF",rcr,{h:1,s:1,k:1})}</div>
+ <div class="card"><h3>Reperibilità e rischio</h3>${R("Reperibilità totali",T.rep)+R("· feriali / festive",T.repH+" / "+T.repF)+R("Reperibilità da pagare",T.repPay)+R("Giorni di rischio",T.ris)+R("Importo reperibilità",fmt(T.repPay*S.tr)+" €")+R("Importo rischio",fmt(T.ris*S.tk)+" €")+R("Totale importi",fmt(imp)+" €",{k:1})+(S.asg?R("Assegnazione",fmt(+S.asg)+" €")+R("Differenza",fmt((+S.asg)-imp)+" €"):"")}</div>
+ <div class="card"><h3>Permessi: residui</h3>${R("Art.25 (ex 32): usate "+hm(C("art25"))+" su "+S.l25+" ore",S.l25*60-C("art25"),{h:1,s:1})+R("Art.22 (ex 35): usate "+hm(C("art22"))+" su "+S.l22+" ore",S.l22*60-C("art22"),{h:1,s:1})+R("Art.24 concorsi/esami: usati "+G("art24c")+" su "+S.l24+" giorni",S.l24-G("art24c"),{s:1})+RZ("L104 ore",C("L104"),{h:1})+RZ("L104 giornate",G("L104"))}</div>
+ <div class="card"><h3>Assenze e notti</h3>${R("Giorni di malattia",T.mal)+R("Notti N + Nf",T.nnf)+RZ("Notti n2",T.nn2)+GD.concat(["RAm","RMcs"]).filter(k=>!["F","FF","AM","Mcs","L104","RRRF"].includes(k)).map(k=>RZ(DESC[k]||k,G(k))).join("")}</div>`;
+ $("#pv").onclick=()=>{Y--;view()};$("#nx").onclick=()=>{Y++;view()}}
+function scheda(m){const n=ndays(Y,M),W=["Do","Lu","Ma","Me","Gi","Ve","Sa"];let h=head()+`<div class="card"><h3>Giorno per giorno</h3><div class="sc"><table class="tb dd"><tr><th>Giorno</th><th>Turno</th><th>Ore a codice</th><th>Diurne</th><th>Nott.</th></tr>`;
+ for(let d=1;d<=n;d++){const T=turno(Y,M,d),r=S.days[key(Y,M,d)]||{},H=shiftMin(T,r);h+=`<tr class="${fest(Y,M,d)?"f":""}"><td>${d} ${W[wday(Y,M,d)]}</td><td>${T||"-"}</td><td>${esc(codes(r).map(z=>z[0]+" "+hm(z[1])).join(", "))}</td><td>${H[0]?hm(H[0]):""}</td><td>${H[1]?hm(H[1]):""}</td></tr>`}
+ h+=`</table></div><p class="mut">Fascia notturna 22-06; le ore del turno sono attribuite al giorno di inizio. La pausa di mezz’ora del notturno è tolta dalle diurne.</p></div><div class="card"><h3>Mese per mese ${Y}</h3><div class="sc"><table class="tb"><tr><th>Mese</th><th>Lavor.</th><th>Giust.</th><th>Dovute</th><th>Saldo</th><th>Rep</th><th>Rep pag.</th><th>Rischio</th><th>Strao</th><th>Ferie</th><th>Mal.</th></tr>`;
+ const Z={lav:0,giu:0,dov:0,sal:0,rep:0,repPay:0,ris:0,str:0,fe:0,mal:0},HK=["lav","giu","dov","sal","str"];
+ const cell=(k,v)=>`<td class="${k=="sal"&&v<-0.5?"n":""}">${HK.includes(k)?hm(v):fmt(v)}</td>`;
+ for(let i=0;i<12;i++){const c=calc(Y,i);for(const k in Z)Z[k]+=c[k];h+=`<tr><td>${MESI[i].slice(0,3)}</td>${Object.keys(Z).map(k=>cell(k,c[k])).join("")}</tr>`}
+ h+=`<tr><td><b>Tot.</b></td>${Object.keys(Z).map(k=>cell(k,Z[k]).replace(/>(.*)</,"><b>$1</b><")).join("")}</tr></table></div></div>`;m.innerHTML=h;wire()}
+const dt=x=>x?x.split("-").reverse().join("/"):"";
+function imp(m){const WK=["Lun","Mar","Mer","Gio","Ven","Sab","Dom"],WKO=[["","–"],["G","G"],["SW","SW"],["L104","L104"],["d1","d1"],["d2","d2"]];
+ const fmv=S.fm===""||S.fm==null?"":S.fm;
+ m.innerHTML=`<div class="card"><h3>Tipo di orario</h3><div class="seg"><button data-tp="T" class="${S.tipo=="T"?"on":""}">Turnista · 6 gg</button><button data-tp="G" class="${S.tipo=="G"?"on":""}">Giornaliero · 5 gg</button></div><div class="mut" style="margin-top:6px">36 ore settimanali: il turnista deve 6:00 per ogni giorno lun-sab non festivo; il giornaliero 7:12 lun-ven non festivo.</div><label for="sv">In servizio dal (facoltativo)</label><input id="sv" type="date" value="${S.from||""}"><div class="mut">Prima di questa data non ci sono turni e le ore non sono dovute (assunzione o arrivo in corso d’anno).</div></div>
+ ${S.tipo=="G"?`<div class="card"><h3>Settimana tipo</h3><div class="mut">Cosa fai di solito ogni giorno: si compila da solo nel calendario (i festivi restano liberi). I singoli giorni si cambiano dal calendario.</div><div class="wk" style="margin-top:8px">${WK.map(w=>`<span>${w}</span>`).join("")}${WK.map((w,i)=>`<select data-wk="${i}">${WKO.map(o=>`<option value="${o[0]}"${(S.wk[i]||"")==o[0]?" selected":""}>${o[1]}</option>`).join("")}</select>`).join("")}</div></div>`:
+ `<div class="card"><h3>Turnazione automatica</h3><div class="mut">Ciclo: diurno, notturno, smonto, riposo, riposo. Scrivi la data di un giorno in cui fai il diurno: da lì il ciclo si compila su tutto il calendario.</div><label for="s">Un giorno in cui fai il diurno (D)</label><input id="s" type="date" value="${S.start}"><label for="r">Ripartenza del ciclo (data di un D)</label><div class="row"><input id="r" type="date"><button class="btn" id="ar">Aggiungi</button></div><div>${S.rip.slice().sort().map(x=>`<span class="tag">${dt(x)} <a href="#" data-x="${x}">✕</a></span>`).join("")}</div><div class="mut">Usa la ripartenza se da una certa data il ciclo cambia (slittamento squadre, cambio squadra): scrivi il primo D del nuovo ciclo.</div></div>
+ <div class="card"><h3>Reperibilità automatica R1/R2</h3><div class="mut">Indica la data di un diurno (D) preceduto da una R1: la R1 cade il giorno prima di quel D, la R2 due giorni prima del D successivo, poi di nuovo R1 e così via (ciclo di 10 giorni). Facoltativo un periodo di validità.</div><label for="rpr">Un D preceduto da R1</label><input id="rpr" type="date"><div class="row"><div><label for="rpa">Dal</label><input id="rpa" type="date"></div><div><label for="rpb">Al</label><input id="rpb" type="date"></div></div><div class="row"><button class="btn" id="arp">Aggiungi periodo</button></div><div>${S.rep.map((p,i)=>`<span class="tag">${p.a?dt(p.a):"inizio"} → ${p.b?dt(p.b):"senza fine"} · D con R1: ${dt(p.r)} <a href="#" data-p="${i}">✕</a></span>`).join("")}</div></div>`}
+ <div class="card"><h3>Saldi dell’anno precedente</h3><label for="f0">Ferie residue (giorni)</label><input id="f0" inputmode="decimal" value="${String(S.f0).replace(".",",")}"><label for="fm">Ferie spettanti nell’anno (vuoto = ${S.tipo=="G"?28:32}, CCNL Funzioni Centrali)</label><input id="fm" inputmode="decimal" value="${String(fmv).replace(".",",")}"><label for="fs">Festività soppresse (giorni)</label><input id="fs" inputmode="decimal" value="${String(S.fs).replace(".",",")}"><label for="b0">Banca ore / straordinari disponibili (h:mm)</label><input id="b0" value="${hm(S.b0)}"><label for="r0">Ore RcRF residue (h:mm)</label><input id="r0" value="${hm(S.r0)}"><label for="pay">Straordinario messo in pagamento quest’anno (h:mm)</label><input id="pay" value="${hm(S.pay)}"></div>
+ <div class="card"><h3>Festività</h3><div class="mut">Incluse: feste nazionali, Pasqua e Pasquetta.</div><label class="chk"><input type="checkbox" id="sa"${S.sa!==false?" checked":""}> Sant’Andrea (30/11, patrono di Sarzana) è festivo</label><label for="hx">Altra festività (data)</label><div class="row"><input id="hx" type="date"><button class="btn" id="ah">Aggiungi</button></div><div>${S.hx.slice().sort().map(x=>`<span class="tag">${dt(x)} <a href="#" data-h="${x}">✕</a></span>`).join("")}</div></div>
+ <div class="card"><h3>Tariffe e limiti</h3><label for="tr">Importo per ogni reperibilità (€)</label><input id="tr" inputmode="decimal" value="${String(S.tr).replace(".",",")}"><label for="tk">Importo per ogni giorno di rischio (€)</label><input id="tk" inputmode="decimal" value="${String(S.tk).replace(".",",")}"><label for="asg">Assegnazione annua reperibilità + rischio (€, facoltativo)</label><input id="asg" inputmode="decimal" value="${String(S.asg||0).replace(".",",")}"><div class="row"><div><label for="l25">Art.25 ore</label><input id="l25" inputmode="decimal" value="${S.l25}"></div><div><label for="l22">Art.22 ore</label><input id="l22" inputmode="decimal" value="${S.l22}"></div><div><label for="l24">Art.24 gg</label><input id="l24" inputmode="decimal" value="${S.l24}"></div></div></div>
+ <div class="card"><h3>Legenda sigle</h3><details><summary>Turni e assenze (giornata)</summary><div class="lg">${TG.map(g=>`<div class="mut" style="padding-top:8px">${g[0]}</div>`+g[1].map(x=>`<div><b>${x[0]}</b>${esc(x[1].split(" · ").slice(1).join(" · "))}</div>`).join("")).join("")}</div></details><details><summary>Codici a ore</summary><div class="lg">${OG.map(g=>`<div class="mut" style="padding-top:8px">${g[0]}</div>`+g[1].map(x=>`<div><b>${x[0]}</b>${esc(x[1].split(" · ").slice(1).join(" · "))}</div>`).join("")).join("")}</div></details><details><summary>Come si calcola</summary><div class="mut">Ferie, malattia e permessi a giornata riconoscono le ore del turno previsto quel giorno (es. F su un D = 12:00, FF su una N = 12:00 e 2 giorni di ferie). Le ore di permesso (Art.25, Art.22, L104, Fo, Rc…) sono sempre giustificate e, se cadono dentro un turno, sono tolte dalle ore lavorate. Fo: 6:00 = 1 giorno di ferie; AMo: 12:00 = 1 giorno di malattia. Le vecchie sigle PRH, Art32, Art35, prl sono lette come art25, art25, art22, art24l.</div></details></div>
+ <div class="card"><h3>Copia di sicurezza</h3><div class="mut">I dati sono solo su questo telefono. Salva un file (o copia il testo) e conservalo in un posto tuo: serve per ripristinare i dati su un altro telefono. Vanno bene anche le copie fatte con la versione precedente dell’app.</div><div class="mut" id="lb" style="margin-top:6px">${S.bk?"Ultima copia: "+new Date(S.bk).toLocaleDateString("it-IT"):"Non hai ancora fatto nessuna copia."}</div><div class="row"><button class="btn p" id="sf">Salva come file</button><button class="btn" id="cp">Copia il testo</button></div><label for="lf">Ripristina da file</label><input id="lf" type="file" accept=".json,application/json,text/plain"><label for="bk">Oppure incolla qui il testo della copia</label><textarea id="bk" rows="3" placeholder="{…}"></textarea><div class="row"><button class="btn" id="rs">Ripristina dal testo</button></div><div class="row"><button class="btn" id="dl">Cancella tutti i dati</button></div></div>`;
+ const on=(id,f)=>{const e=$("#"+id);if(e)e.onchange=f};
+ m.querySelectorAll("[data-tp]").forEach(b=>b.onclick=()=>{S.tipo=b.dataset.tp;save();view()});
+ m.querySelectorAll("[data-wk]").forEach(s=>s.onchange=()=>{S.wk[+s.dataset.wk]=s.value;save()});
+ on("sv",e=>{S.from=e.target.value;save()});on("s",e=>{S.start=e.target.value;save()});
+ const ar=$("#ar");if(ar)ar.onclick=()=>{const v=$("#r").value;if(v&&!S.rip.includes(v)){S.rip.push(v);save();view()}};
+ const arp=$("#arp");if(arp)arp.onclick=()=>{const r=$("#rpr").value;if(!r){alert("Scrivi la data di un D preceduto da una R1.");return}S.rep.push({a:$("#rpa").value,b:$("#rpb").value,r});save();view()};
+ m.querySelectorAll("[data-x]").forEach(a=>a.onclick=e=>{e.preventDefault();S.rip=S.rip.filter(x=>x!=a.dataset.x);save();view()});
+ m.querySelectorAll("[data-p]").forEach(a=>a.onclick=e=>{e.preventDefault();S.rep.splice(+a.dataset.p,1);save();view()});
+ m.querySelectorAll("[data-h]").forEach(a=>a.onclick=e=>{e.preventDefault();S.hx=S.hx.filter(x=>x!=a.dataset.h);save();view()});
+ ["f0","fs","tr","tk","asg","l25","l22","l24"].forEach(k=>on(k,e=>{S[k]=num(e.target.value);save()}));
+ on("fm",e=>{const v=e.target.value.trim();S.fm=v===""?"":num(v);save()});
+ ["b0","r0","pay"].forEach(k=>on(k,e=>{S[k]=pm(e.target.value);e.target.value=hm(S[k]);save()}));
+ on("sa",e=>{S.sa=e.target.checked;save()});
+ $("#ah").onclick=()=>{const v=$("#hx").value;if(v&&!S.hx.includes(v)){S.hx.push(v);save();view()}};
+ const mark=()=>{S.bk=Date.now();save();$("#lb").textContent="Ultima copia: "+new Date(S.bk).toLocaleDateString("it-IT")};
+ $("#cp").onclick=()=>{const t=JSON.stringify(S);const done=()=>{mark();alert("Testo copiato: incollalo in una nota o in un messaggio a te stesso.")};if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(done,()=>{$("#bk").value=t;$("#bk").select();document.execCommand("copy");done()});else{$("#bk").value=t;$("#bk").select();document.execCommand("copy");done()}};
+ $("#sf").onclick=()=>{const f=new File([JSON.stringify(S)],"turni-copia-"+new Date().toISOString().slice(0,10)+".json",{type:"application/json"});if(navigator.canShare&&navigator.canShare({files:[f]})){navigator.share({files:[f],title:"Copia dei turni"}).then(mark).catch(()=>{});return}const a=document.createElement("a");a.href=URL.createObjectURL(f);a.download=f.name;document.body.appendChild(a);a.click();a.remove();mark()};
+ const rest=t=>{try{const o=load(JSON.parse(t));if(!confirm("Sostituire i dati di questa app con quelli della copia?"))return;S=o;S.bk=Date.now();save();alert("Dati ripristinati.");view()}catch(e){alert("Copia non valida: usa il testo o il file completo della copia di sicurezza.")}};
+ $("#rs").onclick=()=>rest($("#bk").value);$("#lf").onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>rest(String(r.result));r.readAsText(f)};
+ $("#dl").onclick=()=>{if(confirm("Cancellare tutti i dati di questa app? Fai prima una copia di sicurezza.")){S=dflt();save();view()}}}
 view();
+if("serviceWorker" in navigator&&location.protocol.startsWith("http"))navigator.serviceWorker.register("sw.js").catch(()=>{});
 </script>
 </body>
 </html>
